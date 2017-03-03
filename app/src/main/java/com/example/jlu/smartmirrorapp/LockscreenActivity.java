@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Calendar;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -83,6 +85,27 @@ public class LockscreenActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Josh Changes start here
+     */
+
+    public String AMorPM(int hourOfDay) {
+        // Returns string "am" or "pm"
+        String am_pm;
+
+        if (hourOfDay > 12) {
+            am_pm = "pm";
+        }
+
+        else {
+            am_pm = "am";
+        }
+
+        return am_pm;
+
+    }
+
+    // My stuff goes in here !!!!!
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +129,13 @@ public class LockscreenActivity extends AppCompatActivity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+        // ~~~ Josh changes start here ~~~
+        int hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        String am_pm = AMorPM(hourOfDay);
+
     }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -160,4 +189,5 @@ public class LockscreenActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
 }
