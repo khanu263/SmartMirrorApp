@@ -2,22 +2,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#000000"
     tools:context="com.example.jlu.smartmirrorapp.LockscreenActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <TextView
+    <LinearLayout
         android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/greeting_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/greeting_default"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:singleLine="true"
+            android:textSize="50sp"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="250dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="100dp">
+
+            <TextView
+                android:id="@+id/time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time_default"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="200sp"
+                android:layout_marginStart="55dp" />
+
+            <TextView
+                android:id="@+id/period_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/period_default"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="40sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="47dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_default"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="50sp"
+            android:layout_marginStart="55dp"/>
+
+        <TextView
+            android:id="@+id/prompt_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_default"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="50sp"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="500dp"/>
+
+    </LinearLayout>
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
@@ -36,15 +100,8 @@
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
-            <Button
-                android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dummy_button" />
-
         </LinearLayout>
+
     </FrameLayout>
 
 </FrameLayout>

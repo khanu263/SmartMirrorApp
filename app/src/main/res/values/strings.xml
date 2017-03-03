@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">SmartMirrorApp</string>
-
-    <string name="dummy_button">Test2 Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="greeting_default">good [INSERT GREETING]</string>
+    <string name="time_default">X.XX</string>
+    <string name="period_default">am/pm</string>
+    <string name="date_default">[DAY], [MONTH] [DATE]</string>
+    <string name="prompt_default">swipe any direction to unlock</string>
 </resources>
