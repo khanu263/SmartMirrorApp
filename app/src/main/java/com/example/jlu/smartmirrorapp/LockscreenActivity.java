@@ -186,7 +186,6 @@ public class LockscreenActivity extends AppCompatActivity {
 
     }
 
-    // My stuff goes in here !!!!!
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
