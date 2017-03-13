@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">SmartMirrorApp</string>
     <string name="greeting_default">good [INSERT GREETING]</string>
+    <string name="greeting_morning">good morning</string>
+    <string name="greeting_afternoon">good afternoon</string>
+    <string name="greeting_evening">good evening</string>
     <string name="time_default">X.XX</string>
     <string name="period_default">am/pm</string>
+    <string name="period_am">am</string>
+    <string name="period_pm">pm</string>
     <string name="date_default">[DAY], [MONTH] [DATE]</string>
     <string name="prompt_default">swipe any direction to unlock</string>
 </resources>
