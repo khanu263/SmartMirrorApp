@@ -87,8 +87,6 @@ public class DataProcessing {
 
         int minuteOfDay = Calendar.getInstance().get(Calendar.MINUTE);
         String timeOfDay = Integer.toString(hourOfDayFormatted) + "." + String.format("%02d", minuteOfDay);
-        Log.d("test", Integer.toString(hourOfDayFormatted));
-        Log.d("test", Integer.toString(hourOfDayUnformatted));
 
         // get general time of day info
         String am_pm = AMorPM(hourOfDayUnformatted, ctx);

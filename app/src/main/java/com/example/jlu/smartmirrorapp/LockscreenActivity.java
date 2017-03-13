@@ -15,9 +15,18 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import io.particle.android.sdk.cloud.ApiFactory;
+import io.particle.android.sdk.cloud.ParticleCloud;
+import io.particle.android.sdk.cloud.ParticleCloudException;
+import io.particle.android.sdk.cloud.ParticleCloudSDK;
+import io.particle.android.sdk.cloud.ParticleEvent;
+import io.particle.android.sdk.cloud.ParticleEventHandler;
+import io.particle.android.sdk.utils.Async;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -94,6 +103,46 @@ public class LockscreenActivity extends AppCompatActivity {
         }
     };
 
+    public void subscribeToEvents() {
+        // subscribes to events and fires the correct handlers for each gesture
+
+        Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
+
+            @Override
+            public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
+
+                particleCloud.subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
+
+                    @Override
+                    public void onEvent(String eventName, ParticleEvent particleEvent) {
+                        Log.d("GESTURE", particleEvent.dataPayload);
+                    }
+
+                    @Override
+                    public void onEventError(Exception e) {
+                        Log.e("Error", e.getMessage());
+                    }
+
+                });
+
+                return "done";
+
+            }
+
+            public void onSuccess(Object o) {
+
+            }
+
+            @Override
+            public void onFailure(ParticleCloudException e) {
+                String errorMessage = e.getBestMessage();
+                Log.e("Error", errorMessage, e);
+            }
+
+        });
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +165,47 @@ public class LockscreenActivity extends AppCompatActivity {
         // initialize context and class
         final Context ctx = this;
         final DataProcessing processor = new DataProcessing();
+
+        // initialize Particle Cloud SDK
+        ParticleCloudSDK.initWithOauthCredentialsProvider(ctx,
+                new ApiFactory.OauthBasicAuthCredentialsProvider() {
+
+                    public String getClientId() {
+                        return "smartmirrorapp-6563";
+                    }
+
+                    public String getClientSecret() {
+                        return "8374ad857562ff5010736b9578c874710aedba9f";
+                    }
+                });
+
+        // Login to Particle Cloud
+        Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Integer>() {
+
+            @Override
+            public Integer callApi(ParticleCloud particleCloud) throws ParticleCloudException, IOException {
+                particleCloud.logIn("hiflyer380@hotmail.com", "Wwdcado_786");
+                return 1;
+            }
+
+            public void onSuccess(Integer i) {
+                if (i == 1) {
+                    Log.d("Particle", "Login successful.");
+                } else {
+                    Log.e("Particle", "An unknown error occurred.");
+                }
+            }
+
+            @Override
+            public void onFailure(ParticleCloudException e) {
+                String errorMessage = e.getBestMessage();
+                Log.e("Error", errorMessage, e);
+            }
+
+        });
+
+        // start event listening
+        subscribeToEvents();
 
         // initialize text views for the activity
         final TextView greeting_text = (TextView) findViewById(R.id.greeting_text);
