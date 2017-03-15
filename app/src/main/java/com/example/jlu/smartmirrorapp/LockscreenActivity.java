@@ -2,6 +2,8 @@ package com.example.jlu.smartmirrorapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.icu.text.MessagePattern;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -103,43 +105,65 @@ public class LockscreenActivity extends AppCompatActivity {
         }
     };
 
-    public void subscribeToEvents() {
+    public void gestureHandler(CountDownTimer watchTimer, long subscriptionID) {
+        watchTimer.cancel();
+
+        try {
+            ParticleCloudSDK.getCloud().unsubscribeFromEventWithID(subscriptionID);
+        } catch (ParticleCloudException e) {
+            Log.e("ERROR", e.getBestMessage());
+        }
+
+
+        Intent intent = new Intent(this, NotificationsActivity.class);
+        startActivity(intent);
+    }
+
+    public void subscribeToEvents(final CountDownTimer watchTimer) {
         // subscribes to events and fires the correct handlers for each gesture
 
-        Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
+        final long subscriptionID = 0;
 
-            @Override
-            public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
+        if (subscriptionID == 0) {
 
-                particleCloud.subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
+            Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
 
-                    @Override
-                    public void onEvent(String eventName, ParticleEvent particleEvent) {
-                        Log.d("GESTURE", particleEvent.dataPayload);
-                    }
+                @Override
+                public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
 
-                    @Override
-                    public void onEventError(Exception e) {
-                        Log.e("Error", e.getMessage());
-                    }
+                    particleCloud.subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
 
-                });
+                        @Override
+                        public void onEvent(String eventName, ParticleEvent particleEvent) {
+                            if (eventName.equals("GESTURE")) {
+                                gestureHandler(watchTimer, subscriptionID);
+                            }
+                        }
 
-                return "done";
+                        @Override
+                        public void onEventError(Exception e) {
+                            Log.e("Error", e.getMessage());
+                        }
 
-            }
+                    });
 
-            public void onSuccess(Object o) {
+                    return "done";
 
-            }
+                }
 
-            @Override
-            public void onFailure(ParticleCloudException e) {
-                String errorMessage = e.getBestMessage();
-                Log.e("Error", errorMessage, e);
-            }
+                public void onSuccess(Object o) {
 
-        });
+                }
+
+                @Override
+                public void onFailure(ParticleCloudException e) {
+                    String errorMessage = e.getBestMessage();
+                    Log.e("Error", errorMessage, e);
+                }
+
+            });
+
+        }
 
     }
 
@@ -204,9 +228,6 @@ public class LockscreenActivity extends AppCompatActivity {
 
         });
 
-        // start event listening
-        subscribeToEvents();
-
         // initialize text views for the activity
         final TextView greeting_text = (TextView) findViewById(R.id.greeting_text);
         final TextView period_text = (TextView) findViewById(R.id.period_text);
@@ -224,6 +245,9 @@ public class LockscreenActivity extends AppCompatActivity {
                 Log.d("noot", "noot");
             }
         }.start();
+
+        // start event listening
+        subscribeToEvents(timer);
 
     }
 
