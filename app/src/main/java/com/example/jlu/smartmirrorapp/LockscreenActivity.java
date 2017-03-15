@@ -191,12 +191,6 @@ public class LockscreenActivity extends AppCompatActivity {
         final Context ctx = this;
         final DataProcessing processor = new DataProcessing();
 
-        // initialize fonts
-        Typeface nirmalaRegular = Typeface.createFromAsset(getAssets(),"fonts/Nirmala.ttf");
-        Typeface nirmalaBold = Typeface.createFromAsset(getAssets(),"fonts/NirmalaB.ttf");
-        Typeface nirmalaLight = Typeface.createFromAsset(getAssets(),"fonts/NirmalaS.ttf");
-        Typeface raleway = Typeface.createFromAsset(getAssets(),"fonts/Raleway.otf");
-
         // initialize Particle Cloud SDK
         ParticleCloudSDK.initWithOauthCredentialsProvider(ctx,
                 new ApiFactory.OauthBasicAuthCredentialsProvider() {
