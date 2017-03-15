@@ -3,6 +3,7 @@ package com.example.jlu.smartmirrorapp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.icu.text.MessagePattern;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
@@ -189,6 +190,12 @@ public class LockscreenActivity extends AppCompatActivity {
         // initialize context and class
         final Context ctx = this;
         final DataProcessing processor = new DataProcessing();
+
+        // initialize fonts
+        Typeface nirmalaRegular = Typeface.createFromAsset(getAssets(),"fonts/Nirmala.ttf");
+        Typeface nirmalaBold = Typeface.createFromAsset(getAssets(),"fonts/NirmalaB.ttf");
+        Typeface nirmalaLight = Typeface.createFromAsset(getAssets(),"fonts/NirmalaS.ttf");
+        Typeface raleway = Typeface.createFromAsset(getAssets(),"fonts/Raleway.otf");
 
         // initialize Particle Cloud SDK
         ParticleCloudSDK.initWithOauthCredentialsProvider(ctx,
