@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context="com.example.jlu.smartmirrorapp.NotificationsActivity">
+    tools:context="com.example.jlu.smartmirrorapp.NewsActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:keepScreenOn="true"
-        android:text="NOTIFICATION\nACTIVITY"
+        android:text="NEWS\nACTIVITY"
         android:textColor="#ffffff"
         android:textSize="50sp"
         android:textStyle="bold" />

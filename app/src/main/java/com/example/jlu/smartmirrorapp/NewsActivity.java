@@ -14,7 +14,6 @@ import android.view.View;
 
 import java.io.IOException;
 
-import io.particle.android.sdk.cloud.ApiFactory;
 import io.particle.android.sdk.cloud.ParticleCloud;
 import io.particle.android.sdk.cloud.ParticleCloudException;
 import io.particle.android.sdk.cloud.ParticleCloudSDK;
@@ -26,7 +25,7 @@ import io.particle.android.sdk.utils.Async;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class NotificationsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -97,9 +96,9 @@ public class NotificationsActivity extends AppCompatActivity {
         }
     };
 
-    public void gestureHandlerLeft(CountDownTimer watchTimer) {
+    public void gestureHandlerRight(CountDownTimer watchTimer) {
         watchTimer.cancel();
-        Intent intent = new Intent(this, NewsActivity.class);
+        Intent intent = new Intent(this, NotificationsActivity.class);
         startActivity(intent);
     }
 
@@ -120,8 +119,8 @@ public class NotificationsActivity extends AppCompatActivity {
 
                     @Override
                     public void onEvent(String eventName, ParticleEvent particleEvent) {
-                        if (particleEvent.dataPayload.equals("LEFT")) {
-                            gestureHandlerLeft(watchTimer);
+                        if (particleEvent.dataPayload.equals("RIGHT")) {
+                            gestureHandlerRight(watchTimer);
                         }
                     }
 
@@ -154,20 +153,11 @@ public class NotificationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_notifications);
+        setContentView(R.layout.activity_news);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-
-
-        // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
 
         // initialize context and class
         final Context ctx = this;

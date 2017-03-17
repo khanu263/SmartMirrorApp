@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jlu.smartmirrorapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,6 +25,11 @@
             android:name=".NotificationsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_notifications"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".NewsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_news"
             android:theme="@style/FullscreenTheme"></activity>
     </application>
 

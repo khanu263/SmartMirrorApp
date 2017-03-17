@@ -106,16 +106,8 @@ public class LockscreenActivity extends AppCompatActivity {
         }
     };
 
-    public void gestureHandler(CountDownTimer watchTimer, long subscriptionID) {
+    public void gestureHandler(CountDownTimer watchTimer) {
         watchTimer.cancel();
-
-        try {
-            ParticleCloudSDK.getCloud().unsubscribeFromEventWithID(subscriptionID);
-        } catch (ParticleCloudException e) {
-            Log.e("ERROR", e.getBestMessage());
-        }
-
-
         Intent intent = new Intent(this, NotificationsActivity.class);
         startActivity(intent);
     }
@@ -123,48 +115,42 @@ public class LockscreenActivity extends AppCompatActivity {
     public void subscribeToEvents(final CountDownTimer watchTimer) {
         // subscribes to events and fires the correct handlers for each gesture
 
-        final long subscriptionID = 0;
+        Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
 
-        if (subscriptionID == 0) {
+            @Override
+            public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
 
-            Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
+                particleCloud.subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
 
-                @Override
-                public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
-
-                    particleCloud.subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
-
-                        @Override
-                        public void onEvent(String eventName, ParticleEvent particleEvent) {
-                            if (eventName.equals("GESTURE")) {
-                                gestureHandler(watchTimer, subscriptionID);
-                            }
+                    @Override
+                    public void onEvent(String eventName, ParticleEvent particleEvent) {
+                        if (particleEvent.dataPayload.equals("LEFT") || particleEvent.dataPayload.equals("RIGHT") || particleEvent.dataPayload.equals("UP") || particleEvent.dataPayload.equals("DOWN") || particleEvent.dataPayload.equals("NEAR") || particleEvent.dataPayload.equals("FAR")) {
+                            gestureHandler(watchTimer);
                         }
+                    }
 
-                        @Override
-                        public void onEventError(Exception e) {
-                            Log.e("Error", e.getMessage());
-                        }
+                    @Override
+                    public void onEventError(Exception e) {
+                        Log.e("Error", e.getMessage());
+                    }
 
-                    });
+                });
 
-                    return "done";
+                return "done";
 
-                }
+            }
 
-                public void onSuccess(Object o) {
+            public void onSuccess(Object o) {
 
-                }
+            }
 
-                @Override
-                public void onFailure(ParticleCloudException e) {
-                    String errorMessage = e.getBestMessage();
-                    Log.e("Error", errorMessage, e);
-                }
+            @Override
+            public void onFailure(ParticleCloudException e) {
+                String errorMessage = e.getBestMessage();
+                Log.e("Error", errorMessage, e);
+            }
 
-            });
-
-        }
+        });
 
     }
 
