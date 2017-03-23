@@ -1,6 +1,7 @@
 package com.example.jlu.smartmirrorapp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
@@ -96,6 +97,31 @@ public class NewsActivity extends AppCompatActivity {
         }
     };
 
+    protected SmartMirrorApp smartMirrorApp;
+
+    // initialize context and class
+    final Context ctx = this;
+    final DataProcessing processor = new DataProcessing();
+
+    CountDownTimer timer = new CountDownTimer(300000, 60000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            timeoutHandler();
+        }
+    }.start();
+
+    private void clearReferences() {
+        Activity currentActivity = smartMirrorApp.getCurrentActivity();
+        if (this.equals(currentActivity)) {
+            smartMirrorApp.setCurrentActivity(null);
+        }
+    }
+
     public void gestureHandlerRight(CountDownTimer watchTimer) {
         watchTimer.cancel();
         Intent intent = new Intent(this, NotificationsActivity.class);
@@ -107,51 +133,16 @@ public class NewsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void subscribeToEvents(final CountDownTimer watchTimer) {
-        // subscribes to events and fires the correct handlers for each gesture
-
-        Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
-
-            @Override
-            public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
-
-                particleCloud.subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
-
-                    @Override
-                    public void onEvent(String eventName, ParticleEvent particleEvent) {
-                        if (particleEvent.dataPayload.equals("RIGHT")) {
-                            gestureHandlerRight(watchTimer);
-                        }
-                    }
-
-                    @Override
-                    public void onEventError(Exception e) {
-                        Log.e("Error", e.getMessage());
-                    }
-
-                });
-
-                return "done";
-
-            }
-
-            public void onSuccess(Object o) {
-
-            }
-
-            @Override
-            public void onFailure(ParticleCloudException e) {
-                String errorMessage = e.getBestMessage();
-                Log.e("Error", errorMessage, e);
-            }
-
-        });
-
+    public void receiveGesture(String gestureName, CountDownTimer timer) {
+        if (gestureName.equals("LEFT")) {
+            gestureHandlerRight(timer);
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        smartMirrorApp = (SmartMirrorApp) this.getApplicationContext();
 
         setContentView(R.layout.activity_news);
 
@@ -159,23 +150,21 @@ public class NewsActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        // initialize context and class
-        final Context ctx = this;
-        final DataProcessing processor = new DataProcessing();
+    }
 
-        CountDownTimer timer = new CountDownTimer(300000, 60000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
+    protected void onResume() {
+        super.onResume();
+        smartMirrorApp.setCurrentActivity(this);
+    }
 
-            }
+    protected void onPause() {
+        clearReferences();
+        super.onPause();
+    }
 
-            @Override
-            public void onFinish() {
-                timeoutHandler();
-            }
-        }.start();
-
-        subscribeToEvents(timer);
+    protected void onDestroy() {
+        clearReferences();
+        super.onDestroy();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.jlu.smartmirrorapp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -106,64 +107,58 @@ public class LockscreenActivity extends AppCompatActivity {
         }
     };
 
-    public void gestureHandler(CountDownTimer watchTimer) {
-        watchTimer.cancel();
+    protected SmartMirrorApp smartMirrorApp;
+
+    // initialize context and class
+    final Context ctx = this;
+    final DataProcessing processor = new DataProcessing();
+
+    // initialize text views for the activity
+    final TextView greeting_text = (TextView) findViewById(R.id.greeting_text);
+    final TextView period_text = (TextView) findViewById(R.id.period_text);
+    final TextView date_text = (TextView) findViewById(R.id.date_text);
+    final TextView time_text = (TextView) findViewById(R.id.time_text);
+
+    CountDownTimer timer = new CountDownTimer(1000000000, 60000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            processor.updateLockscreen(greeting_text, period_text, date_text, time_text, ctx);
+        }
+
+        @Override
+        public void onFinish() {
+            Log.d("noot", "noot");
+        }
+    }.start();
+
+    private void clearReferences() {
+        Activity currentActivity = smartMirrorApp.getCurrentActivity();
+        if (this.equals(currentActivity)) {
+            smartMirrorApp.setCurrentActivity(null);
+        }
+    }
+
+    public void gestureHandlerLockscreen(CountDownTimer timer) {
+        timer.cancel();
         Intent intent = new Intent(this, NotificationsActivity.class);
         startActivity(intent);
     }
 
-    public void subscribeToEvents(final CountDownTimer watchTimer) {
-        // subscribes to events and fires the correct handlers for each gesture
-
-        Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
-
-            @Override
-            public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
-
-                particleCloud.subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
-
-                    @Override
-                    public void onEvent(String eventName, ParticleEvent particleEvent) {
-                        if (particleEvent.dataPayload.equals("LEFT") || particleEvent.dataPayload.equals("RIGHT") || particleEvent.dataPayload.equals("UP") || particleEvent.dataPayload.equals("DOWN") || particleEvent.dataPayload.equals("NEAR") || particleEvent.dataPayload.equals("FAR")) {
-                            gestureHandler(watchTimer);
-                        }
-                    }
-
-                    @Override
-                    public void onEventError(Exception e) {
-                        Log.e("Error", e.getMessage());
-                    }
-
-                });
-
-                return "done";
-
-            }
-
-            public void onSuccess(Object o) {
-
-            }
-
-            @Override
-            public void onFailure(ParticleCloudException e) {
-                String errorMessage = e.getBestMessage();
-                Log.e("Error", errorMessage, e);
-            }
-
-        });
-
+    public void receiveGesture(String gestureName, CountDownTimer timer) {
+        gestureHandlerLockscreen(timer);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        smartMirrorApp = (SmartMirrorApp) this.getApplicationContext();
 
         setContentView(R.layout.activity_lockscreen);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -173,69 +168,21 @@ public class LockscreenActivity extends AppCompatActivity {
             }
         });
 
-        // initialize context and class
-        final Context ctx = this;
-        final DataProcessing processor = new DataProcessing();
+    }
 
-        // initialize Particle Cloud SDK
-        ParticleCloudSDK.initWithOauthCredentialsProvider(ctx,
-                new ApiFactory.OauthBasicAuthCredentialsProvider() {
+    protected void onResume() {
+        super.onResume();
+        smartMirrorApp.setCurrentActivity(this);
+    }
 
-                    public String getClientId() {
-                        return "smartmirrorapp-6563";
-                    }
+    protected void onPause() {
+        clearReferences();
+        super.onPause();
+    }
 
-                    public String getClientSecret() {
-                        return "8374ad857562ff5010736b9578c874710aedba9f";
-                    }
-                });
-
-        // Login to Particle Cloud
-        Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Integer>() {
-
-            @Override
-            public Integer callApi(ParticleCloud particleCloud) throws ParticleCloudException, IOException {
-                particleCloud.logIn("hiflyer380@hotmail.com", "Wwdcado_786");
-                return 1;
-            }
-
-            public void onSuccess(Integer i) {
-                if (i == 1) {
-                    Log.d("Particle", "Login successful.");
-                } else {
-                    Log.e("Particle", "An unknown error occurred.");
-                }
-            }
-
-            @Override
-            public void onFailure(ParticleCloudException e) {
-                String errorMessage = e.getBestMessage();
-                Log.e("Error", errorMessage, e);
-            }
-
-        });
-
-        // initialize text views for the activity
-        final TextView greeting_text = (TextView) findViewById(R.id.greeting_text);
-        final TextView period_text = (TextView) findViewById(R.id.period_text);
-        final TextView date_text = (TextView) findViewById(R.id.date_text);
-        final TextView time_text = (TextView) findViewById(R.id.time_text);
-
-        CountDownTimer timer = new CountDownTimer(1000000000, 60000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                processor.updateLockscreen(greeting_text, period_text, date_text, time_text, ctx);
-            }
-
-            @Override
-            public void onFinish() {
-                Log.d("noot", "noot");
-            }
-        }.start();
-
-        // start event listening
-        subscribeToEvents(timer);
-
+    protected void onDestroy() {
+        clearReferences();
+        super.onDestroy();
     }
 
 
