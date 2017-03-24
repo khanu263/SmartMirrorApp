@@ -9,18 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.io.IOException;
-
-import io.particle.android.sdk.cloud.ParticleCloud;
-import io.particle.android.sdk.cloud.ParticleCloudException;
-import io.particle.android.sdk.cloud.ParticleCloudSDK;
-import io.particle.android.sdk.cloud.ParticleEvent;
-import io.particle.android.sdk.cloud.ParticleEventHandler;
-import io.particle.android.sdk.utils.Async;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -98,27 +88,13 @@ public class NewsActivity extends AppCompatActivity {
     };
 
     protected SmartMirrorApp smartMirrorApp;
-
-    // initialize context and class
-    final Context ctx = this;
-    final DataProcessing processor = new DataProcessing();
-
-    CountDownTimer timer = new CountDownTimer(300000, 60000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-
-        }
-
-        @Override
-        public void onFinish() {
-            timeoutHandler();
-        }
-    }.start();
+    CountDownTimer timer;
 
     private void clearReferences() {
         Activity currentActivity = smartMirrorApp.getCurrentActivity();
         if (this.equals(currentActivity)) {
             smartMirrorApp.setCurrentActivity(null);
+            smartMirrorApp.setNewsActivity(null);
         }
     }
 
@@ -134,7 +110,7 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
-        if (gestureName.equals("LEFT")) {
+        if (gestureName.equals("RIGHT")) {
             gestureHandlerRight(timer);
         }
     }
@@ -150,11 +126,27 @@ public class NewsActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
+        // initialize context
+        final Context ctx = this;
+
+        timer = new CountDownTimer(300000, 60000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                timeoutHandler();
+            }
+        }.start();
+
     }
 
     protected void onResume() {
         super.onResume();
         smartMirrorApp.setCurrentActivity(this);
+        smartMirrorApp.setNewsActivity(this);
     }
 
     protected void onPause() {
