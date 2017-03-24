@@ -9,19 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.io.IOException;
-
-import io.particle.android.sdk.cloud.ApiFactory;
-import io.particle.android.sdk.cloud.ParticleCloud;
-import io.particle.android.sdk.cloud.ParticleCloudException;
-import io.particle.android.sdk.cloud.ParticleCloudSDK;
-import io.particle.android.sdk.cloud.ParticleEvent;
-import io.particle.android.sdk.cloud.ParticleEventHandler;
-import io.particle.android.sdk.utils.Async;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -99,15 +88,13 @@ public class NotificationsActivity extends AppCompatActivity {
     };
 
     protected SmartMirrorApp smartMirrorApp;
-
-    // initialize context and class
-    final Context ctx = this;
-    final DataProcessing processor = new DataProcessing();
+    CountDownTimer timer;
 
     private void clearReferences() {
         Activity currentActivity = smartMirrorApp.getCurrentActivity();
         if (this.equals(currentActivity)) {
             smartMirrorApp.setCurrentActivity(null);
+            smartMirrorApp.setNotificationActivity(null);
         }
     }
 
@@ -140,6 +127,8 @@ public class NotificationsActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
+        // initialize context
+        final Context ctx = this;
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -149,11 +138,22 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
 
+        timer = new CountDownTimer(300000, 60000) {
+            @Override
+            public void onTick(long millisUntilFinished) {}
+
+            @Override
+            public void onFinish() {
+                timeoutHandler();
+            }
+        }.start();
+
     }
 
     protected void onResume() {
         super.onResume();
         smartMirrorApp.setCurrentActivity(this);
+        smartMirrorApp.setNotificationActivity(this);
     }
 
     protected void onPause() {
