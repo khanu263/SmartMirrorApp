@@ -5,7 +5,6 @@ import android.app.Application;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.concurrent.locks.Lock;
 
 import io.particle.android.sdk.cloud.ApiFactory;
 import io.particle.android.sdk.cloud.ParticleCloud;
@@ -67,9 +66,9 @@ public class SmartMirrorApp extends Application {
     }
 
     private Activity currentActivity = null;
-    private Activity lockscreenActivity = null;
-    private Activity notificationActivity = null;
-    private Activity newsActivity = null;
+    private LockscreenActivity lockscreenActivity = null;
+    private NotificationsActivity notificationActivity = null;
+    private NewsActivity newsActivity = null;
 
     public Activity getCurrentActivity() {
         return currentActivity;
@@ -79,27 +78,27 @@ public class SmartMirrorApp extends Application {
         this.currentActivity = receivedActivity;
     }
 
-    public Activity getLockscreenActivity() {
+    public LockscreenActivity getLockscreenActivity() {
         return lockscreenActivity;
     }
 
-    public void setLockscreenActivity(Activity receivedActivity) {
+    public void setLockscreenActivity(LockscreenActivity receivedActivity) {
         this.lockscreenActivity = receivedActivity;
     }
 
-    public Activity getNotificationActivityActivity() {
+    public NotificationsActivity getNotificationActivityActivity() {
         return notificationActivity;
     }
 
-    public void setNotificationActivity(Activity receivedActivity) {
+    public void setNotificationActivity(NotificationsActivity receivedActivity) {
         this.notificationActivity = receivedActivity;
     }
 
-    public Activity getNewsActivity() {
+    public NewsActivity getNewsActivity() {
         return newsActivity;
     }
 
-    public void setNewsActivity(Activity receivedActivity) {
+    public void setNewsActivity(NewsActivity receivedActivity) {
         this.newsActivity = receivedActivity;
     }
 
@@ -114,10 +113,14 @@ public class SmartMirrorApp extends Application {
 
                     @Override
                     public void onEvent(String eventName, ParticleEvent particleEvent) {
-                        Activity runningActivity = getCurrentActivity();
-
                         if (eventName.equals("GESTURE")) {
-
+                            if (lockscreenActivity != null) {
+                                lockscreenActivity.receiveGesture(particleEvent.dataPayload, lockscreenActivity.timer);
+                            } else if (notificationActivity != null) {
+                                notificationActivity.receiveGesture(particleEvent.dataPayload, notificationActivity.timer);
+                            } else if (newsActivity != null) {
+                                newsActivity.receiveGesture(particleEvent.dataPayload, newsActivity.timer);
+                            }
                         }
                     }
 
