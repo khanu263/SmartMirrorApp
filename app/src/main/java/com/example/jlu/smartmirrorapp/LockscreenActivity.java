@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.icu.text.MessagePattern;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,23 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Interpolator;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
-import io.particle.android.sdk.cloud.ApiFactory;
-import io.particle.android.sdk.cloud.ParticleCloud;
-import io.particle.android.sdk.cloud.ParticleCloudException;
-import io.particle.android.sdk.cloud.ParticleCloudSDK;
-import io.particle.android.sdk.cloud.ParticleEvent;
-import io.particle.android.sdk.cloud.ParticleEventHandler;
-import io.particle.android.sdk.utils.Async;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -108,33 +90,13 @@ public class LockscreenActivity extends AppCompatActivity {
     };
 
     protected SmartMirrorApp smartMirrorApp;
-
-    // initialize context and class
-    final Context ctx = this;
-    final DataProcessing processor = new DataProcessing();
-
-    // initialize text views for the activity
-    final TextView greeting_text = (TextView) findViewById(R.id.greeting_text);
-    final TextView period_text = (TextView) findViewById(R.id.period_text);
-    final TextView date_text = (TextView) findViewById(R.id.date_text);
-    final TextView time_text = (TextView) findViewById(R.id.time_text);
-
-    CountDownTimer timer = new CountDownTimer(1000000000, 60000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            processor.updateLockscreen(greeting_text, period_text, date_text, time_text, ctx);
-        }
-
-        @Override
-        public void onFinish() {
-            Log.d("noot", "noot");
-        }
-    }.start();
+    CountDownTimer timer;
 
     private void clearReferences() {
         Activity currentActivity = smartMirrorApp.getCurrentActivity();
         if (this.equals(currentActivity)) {
             smartMirrorApp.setCurrentActivity(null);
+            smartMirrorApp.setLockscreenActivity(null);
         }
     }
 
@@ -168,11 +130,34 @@ public class LockscreenActivity extends AppCompatActivity {
             }
         });
 
+        // initialize context and class
+        final Context ctx = this;
+        final DataProcessing processor = new DataProcessing();
+
+        // initialize text views for the activity
+        final TextView greeting_text = (TextView) findViewById(R.id.greeting_text);
+        final TextView period_text = (TextView) findViewById(R.id.period_text);
+        final TextView date_text = (TextView) findViewById(R.id.date_text);
+        final TextView time_text = (TextView) findViewById(R.id.time_text);
+
+        timer = new CountDownTimer(1000000000, 60000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                processor.updateLockscreen(greeting_text, period_text, date_text, time_text, ctx);
+            }
+
+            @Override
+            public void onFinish() {
+                Log.d("noot", "noot");
+            }
+        }.start();
+
     }
 
     protected void onResume() {
         super.onResume();
         smartMirrorApp.setCurrentActivity(this);
+        smartMirrorApp.setLockscreenActivity(this);
     }
 
     protected void onPause() {
