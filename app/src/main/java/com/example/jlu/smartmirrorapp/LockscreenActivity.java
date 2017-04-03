@@ -118,6 +118,7 @@ public class LockscreenActivity extends AppCompatActivity {
     }
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
+        Log.d("INFO", "lockscreen received gesture");
         if (gestureName.equals("UP") || gestureName.equals("DOWN") || gestureName.equals("LEFT") || gestureName.equals("RIGHT") || gestureName.equals("NEAR") || gestureName.equals("FAR")) {
             gestureHandlerLockscreen(timer);
         }

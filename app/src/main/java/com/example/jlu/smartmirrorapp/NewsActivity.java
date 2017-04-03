@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -116,6 +117,7 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
+        Log.d("INFO", "news received gesture");
         if (gestureName.equals("RIGHT")) {
             gestureHandlerRight(timer);
         }
