@@ -87,7 +87,13 @@ public class NewsActivity extends AppCompatActivity {
         }
     };
 
+    // initialize application and context
     protected SmartMirrorApp smartMirrorApp;
+    Context ctx = this;
+
+    // initialize TextViews
+
+    // initialize other variables
     CountDownTimer timer;
 
     private void clearReferences() {
@@ -125,9 +131,6 @@ public class NewsActivity extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-
-        // initialize context
-        final Context ctx = this;
 
         timer = new CountDownTimer(300000, 60000) {
             @Override

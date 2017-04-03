@@ -113,14 +113,12 @@ public class SmartMirrorApp extends Application {
 
                     @Override
                     public void onEvent(String eventName, ParticleEvent particleEvent) {
-                        if (eventName.equals("GESTURE")) {
-                            if (lockscreenActivity != null) {
-                                lockscreenActivity.receiveGesture(particleEvent.dataPayload, lockscreenActivity.timer);
-                            } else if (notificationActivity != null) {
-                                notificationActivity.receiveGesture(particleEvent.dataPayload, notificationActivity.timer);
-                            } else if (newsActivity != null) {
-                                newsActivity.receiveGesture(particleEvent.dataPayload, newsActivity.timer);
-                            }
+                        if (lockscreenActivity != null) {
+                            lockscreenActivity.receiveGesture(particleEvent.dataPayload, lockscreenActivity.timer);
+                        } else if (notificationActivity != null) {
+                            notificationActivity.receiveGesture(particleEvent.dataPayload, notificationActivity.timer);
+                        } else if (newsActivity != null) {
+                            newsActivity.receiveGesture(particleEvent.dataPayload, newsActivity.timer);
                         }
                     }
 

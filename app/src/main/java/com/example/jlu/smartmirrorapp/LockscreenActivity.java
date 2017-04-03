@@ -89,7 +89,18 @@ public class LockscreenActivity extends AppCompatActivity {
         }
     };
 
+    // initialize application and context
     protected SmartMirrorApp smartMirrorApp;
+    Context ctx = this;
+
+    // initialize TextViews
+    TextView greeting_text;
+    TextView period_text;
+    TextView date_text;
+    TextView time_text;
+
+    // initialize other variables
+    final DataProcessing processor = new DataProcessing();
     CountDownTimer timer;
 
     private void clearReferences() {
@@ -107,7 +118,9 @@ public class LockscreenActivity extends AppCompatActivity {
     }
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
-        gestureHandlerLockscreen(timer);
+        if (gestureName.equals("UP") || gestureName.equals("DOWN") || gestureName.equals("LEFT") || gestureName.equals("RIGHT") || gestureName.equals("NEAR") || gestureName.equals("FAR")) {
+            gestureHandlerLockscreen(timer);
+        }
     }
 
     @Override
@@ -130,15 +143,11 @@ public class LockscreenActivity extends AppCompatActivity {
             }
         });
 
-        // initialize context and class
-        final Context ctx = this;
-        final DataProcessing processor = new DataProcessing();
-
         // initialize text views for the activity
-        final TextView greeting_text = (TextView) findViewById(R.id.greeting_text);
-        final TextView period_text = (TextView) findViewById(R.id.period_text);
-        final TextView date_text = (TextView) findViewById(R.id.date_text);
-        final TextView time_text = (TextView) findViewById(R.id.time_text);
+        greeting_text = (TextView) findViewById(R.id.greeting_text);
+        period_text = (TextView) findViewById(R.id.period_text);
+        date_text = (TextView) findViewById(R.id.date_text);
+        time_text = (TextView) findViewById(R.id.time_text);
 
         timer = new CountDownTimer(1000000000, 60000) {
             @Override
