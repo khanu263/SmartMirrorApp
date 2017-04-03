@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -90,12 +97,18 @@ public class NewsActivity extends AppCompatActivity {
 
     // initialize application and context
     protected SmartMirrorApp smartMirrorApp;
-    Context ctx = this;
+    final Context ctx = this;
 
-    // initialize TextViews
+    // initialize TextView
+    TextView news_date;
+    TextView news_time;
+    TextView news_default;
 
     // initialize other variables
+    final DataProcessing processor = new DataProcessing();
     CountDownTimer timer;
+    String headlineString;
+    String[][] headlineArray;
 
     private void clearReferences() {
         Activity currentActivity = smartMirrorApp.getCurrentActivity();
@@ -103,6 +116,64 @@ public class NewsActivity extends AppCompatActivity {
             smartMirrorApp.setCurrentActivity(null);
             smartMirrorApp.setNewsActivity(null);
         }
+    }
+
+    class RetrieveNewsHeadlines extends AsyncTask<Void, Void, String> {
+
+        private Exception exception;
+
+        protected void onPreExecute() {}
+
+        protected String doInBackground(Void... urls) {
+
+            try {
+
+                URL url = new URL("https://newsapi.org/v1/articles?source=associated-press&apiKey=75f3a5ec633a443abd83eb7df6670618");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                try {
+
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line).append("\n");
+                    }
+
+                    bufferedReader.close();
+                    return stringBuilder.toString();
+
+                } finally {
+                    urlConnection.disconnect();
+                }
+
+            } catch (Exception e) {
+                Log.e("ERROR", e.getMessage(), e);
+                return null;
+            }
+
+        }
+
+        protected void onPostExecute(String response) {
+
+            if (response == null || response.substring(11, 16).equals("error")) {
+                news_default.setText(ctx.getResources().getString(R.string.news_error));
+            } else {
+                Log.d("Info", "received headlines");
+                headlineString = response;
+                headlineArray = processor.parseHeadlineJSON(headlineString, ctx);
+
+                for (int i = 0; i < 5; i++) {
+                    Log.d("Info", headlineArray[i][0]);
+                    Log.d("Info", headlineArray[i][1]);
+                    Log.d("Info", headlineArray[i][2]);
+                    Log.d("Info", headlineArray[i][3]);
+                }
+            }
+
+        }
+
     }
 
     public void gestureHandlerRight(CountDownTimer watchTimer) {
@@ -134,10 +205,15 @@ public class NewsActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
+        // set text views for the activity
+        news_date = (TextView) findViewById(R.id.news_date);
+        news_time = (TextView) findViewById(R.id.news_time);
+        news_default = (TextView) findViewById(R.id.news_default);
+
         timer = new CountDownTimer(300000, 60000) {
             @Override
             public void onTick(long millisUntilFinished) {
-
+                processor.updateMinimizedLockscreen(news_date, news_time, ctx);
             }
 
             @Override
@@ -145,6 +221,8 @@ public class NewsActivity extends AppCompatActivity {
                 timeoutHandler();
             }
         }.start();
+
+        new RetrieveNewsHeadlines().execute();
 
     }
 
