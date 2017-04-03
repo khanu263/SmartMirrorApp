@@ -10,6 +10,12 @@
     <string name="period_pm">pm</string>
     <string name="date_default">[DAY], [MONTH] [DATE]</string>
     <string name="prompt_default">swipe any direction to unlock</string>
+    <string name="minimized_date_default">MM/DD/YYYY</string>
+    <string name="minimized_time_default">X.XX am/pm</string>
+    <string name="news_prompt">here are the top headlines</string>
+    <string name="news_attribution">powered by News API</string>
+    <string name="news_default">loading&#8230;</string>
+    <string name="news_error">There was an error. Please try again later.</string>
 
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_news">NewsActivity</string>

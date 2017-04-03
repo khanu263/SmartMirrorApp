@@ -8,16 +8,78 @@
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <TextView
+    <LinearLayout
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="NEWS\nACTIVITY"
-        android:textColor="#ffffff"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_margin="40dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/news_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minimized_date_default"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:id="@+id/news_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/minimized_time_default"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/news_prompt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/news_prompt"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="50sp"
+            android:gravity="center"
+            android:layout_marginTop="150dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/news_attribution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/news_attribution"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:layout_marginBottom="150dp"/>
+
+        <TextView
+            android:id="@+id/news_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/news_default"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
