@@ -79,6 +79,114 @@
             android:textSize="30sp"
             android:gravity="center"/>
 
+        <LinearLayout
+            android:id="@+id/headline_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/headline_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="35sp"
+                android:layout_marginBottom="10sp"/>
+
+            <TextView
+                android:id="@+id/date_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textSize="23sp"
+                android:gravity="end"
+                android:layout_marginBottom="50sp"/>
+
+            <TextView
+                android:id="@+id/headline_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="35sp"
+                android:layout_marginBottom="10sp"/>
+
+            <TextView
+                android:id="@+id/date_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textSize="23sp"
+                android:gravity="end"
+                android:layout_marginBottom="50sp"/>
+
+            <TextView
+                android:id="@+id/headline_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="35sp"
+                android:layout_marginBottom="10sp"/>
+
+            <TextView
+                android:id="@+id/date_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textSize="23sp"
+                android:gravity="end"
+                android:layout_marginBottom="50sp"/>
+
+            <TextView
+                android:id="@+id/headline_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="35sp"
+                android:layout_marginBottom="10sp"/>
+
+            <TextView
+                android:id="@+id/date_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textSize="23sp"
+                android:gravity="end"
+                android:layout_marginBottom="50sp"/>
+
+            <TextView
+                android:id="@+id/headline_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="35sp"
+                android:layout_marginBottom="10sp"/>
+
+            <TextView
+                android:id="@+id/date_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textSize="23sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <!-- This FrameLayout insets its children based on system windows using
