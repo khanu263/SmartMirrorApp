@@ -161,7 +161,6 @@ public class LockscreenActivity extends AppCompatActivity {
                 Log.d("noot", "noot");
             }
         }.start();
-
     }
 
     protected void onResume() {
@@ -184,11 +183,7 @@ public class LockscreenActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
+        hide();
     }
 
     private void toggle() {
