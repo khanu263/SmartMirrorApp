@@ -211,7 +211,7 @@ public class DataProcessing {
 
         // set new margin for attribution
         LinearLayout.LayoutParams attribution_margins = (LinearLayout.LayoutParams) news_attribution.getLayoutParams();
-        attribution_margins.setMargins(attribution_margins.leftMargin, attribution_margins.topMargin, attribution_margins.rightMargin, 80);
+        attribution_margins.setMargins(attribution_margins.leftMargin, attribution_margins.topMargin, attribution_margins.rightMargin, 60);
         news_attribution.setLayoutParams(attribution_margins);
 
         // loop through array and set text
