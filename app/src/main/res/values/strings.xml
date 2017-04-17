@@ -19,4 +19,8 @@
 
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_news">NewsActivity</string>
+
+    <string name="title_activity_radio">RadioActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

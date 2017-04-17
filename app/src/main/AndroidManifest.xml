@@ -5,10 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".SmartMirrorApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".SmartMirrorApp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -31,6 +31,11 @@
             android:name=".NewsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_news"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".RadioActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_radio"
             android:theme="@style/FullscreenTheme"></activity>
     </application>
 
