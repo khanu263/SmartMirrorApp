@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SmartMirrorApp</string>
+
+    <!-- Lockscreen -->
     <string name="greeting_default">good [INSERT GREETING]</string>
     <string name="greeting_morning">good morning</string>
     <string name="greeting_afternoon">good afternoon</string>
@@ -12,10 +14,18 @@
     <string name="prompt_default">swipe any direction to unlock</string>
     <string name="minimized_date_default">MM/DD/YYYY</string>
     <string name="minimized_time_default">X.XX am/pm</string>
+
+    <!-- News -->
     <string name="news_prompt">here are the top headlines</string>
     <string name="news_attribution">powered by News API</string>
     <string name="news_default">loading&#8230;</string>
     <string name="news_error">There was an error. Please try again later.</string>
+
+    <!-- Notifications -->
+    <string name="notifications_prompt">here\'s what today looks like</string>
+    <string name="notifications_attribution">powered by DarkSky</string>
+    <string name="notifications_default">loading&#8230;</string>
+    <string name="notifications_error">There was an error. Please try again later.</string>
 
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_news">NewsActivity</string>
