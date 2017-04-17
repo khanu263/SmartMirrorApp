@@ -2,11 +2,14 @@ package com.example.jlu.smartmirrorapp;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -198,6 +201,53 @@ public class DataProcessing {
 
 
         return headlineArray;
+
+    }
+
+    public void displayHeadlines(String[][] headlineArray, LinearLayout fullscreen_content, TextView news_attribution, TextView news_default, TextView headline_1, TextView date_1, TextView headline_2, TextView date_2, TextView headline_3, TextView date_3, TextView headline_4, TextView date_4, TextView headline_5, TextView date_5, Context ctx) {
+
+        // remove loading message
+        fullscreen_content.removeView(news_default);
+
+        // set new margin for attribution
+        LinearLayout.LayoutParams attribution_margins = (LinearLayout.LayoutParams) news_attribution.getLayoutParams();
+        attribution_margins.setMargins(attribution_margins.leftMargin, attribution_margins.topMargin, attribution_margins.rightMargin, 60);
+        news_attribution.setLayoutParams(attribution_margins);
+
+        // loop through array and set text
+        for (int i = 0; i < 5; i++) {
+
+            String headlineViewName = "headline_" + (i + 1);
+            String dateViewName = "date_" + (i + 1);
+
+            String headlineText = headlineArray[i][1];
+            String dateText = headlineArray[i][2];
+
+            if (ctx.getResources().getResourceEntryName(headline_1.getId()).equals(headlineViewName)) {
+                headline_1.setText(headlineText);
+            } else if (ctx.getResources().getResourceEntryName(headline_2.getId()).equals(headlineViewName)) {
+                headline_2.setText(headlineText);
+            } else if (ctx.getResources().getResourceEntryName(headline_3.getId()).equals(headlineViewName)) {
+                headline_3.setText(headlineText);
+            } else if (ctx.getResources().getResourceEntryName(headline_4.getId()).equals(headlineViewName)) {
+                headline_4.setText(headlineText);
+            } else if (ctx.getResources().getResourceEntryName(headline_5.getId()).equals(headlineViewName)) {
+                headline_5.setText(headlineText);
+            }
+
+            if (ctx.getResources().getResourceEntryName(date_1.getId()).equals(dateViewName)) {
+                date_1.setText(dateText);
+            } else if (ctx.getResources().getResourceEntryName(date_2.getId()).equals(dateViewName)) {
+                date_2.setText(dateText);
+            } else if (ctx.getResources().getResourceEntryName(date_3.getId()).equals(dateViewName)) {
+                date_3.setText(dateText);
+            } else if (ctx.getResources().getResourceEntryName(date_4.getId()).equals(dateViewName)) {
+                date_4.setText(dateText);
+            } else if (ctx.getResources().getResourceEntryName(date_5.getId()).equals(dateViewName)) {
+                date_5.setText(dateText);
+            }
+
+        }
 
     }
 

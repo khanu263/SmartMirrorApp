@@ -13,7 +13,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -102,7 +105,22 @@ public class NewsActivity extends AppCompatActivity {
     // initialize TextView
     TextView news_date;
     TextView news_time;
+    TextView news_attribution;
     TextView news_default;
+    TextView headline_1;
+    TextView date_1;
+    TextView headline_2;
+    TextView date_2;
+    TextView headline_3;
+    TextView date_3;
+    TextView headline_4;
+    TextView date_4;
+    TextView headline_5;
+    TextView date_5;
+
+    // initialize LinearLayout
+    LinearLayout headline_layout;
+    LinearLayout fullscreen_content;
 
     // initialize other variables
     final DataProcessing processor = new DataProcessing();
@@ -163,13 +181,7 @@ public class NewsActivity extends AppCompatActivity {
                 Log.d("Info", "received headlines");
                 headlineString = response;
                 headlineArray = processor.parseHeadlineJSON(headlineString, ctx);
-
-                for (int i = 0; i < 5; i++) {
-                    Log.d("Info", headlineArray[i][0]);
-                    Log.d("Info", headlineArray[i][1]);
-                    Log.d("Info", headlineArray[i][2]);
-                    Log.d("Info", headlineArray[i][3]);
-                }
+                processor.displayHeadlines(headlineArray, fullscreen_content, news_attribution, news_default, headline_1, date_1, headline_2, date_2, headline_3, date_3, headline_4, date_4, headline_5, date_5, ctx);
             }
 
         }
@@ -208,7 +220,22 @@ public class NewsActivity extends AppCompatActivity {
         // set text views for the activity
         news_date = (TextView) findViewById(R.id.news_date);
         news_time = (TextView) findViewById(R.id.news_time);
+        news_attribution = (TextView) findViewById(R.id.news_attribution);
         news_default = (TextView) findViewById(R.id.news_default);
+        headline_1 = (TextView) findViewById(R.id.headline_1);
+        date_1 = (TextView) findViewById(R.id.date_1);
+        headline_2 = (TextView) findViewById(R.id.headline_2);
+        date_2 = (TextView) findViewById(R.id.date_2);
+        headline_3 = (TextView) findViewById(R.id.headline_3);
+        date_3 = (TextView) findViewById(R.id.date_3);
+        headline_4 = (TextView) findViewById(R.id.headline_4);
+        date_4 = (TextView) findViewById(R.id.date_4);
+        headline_5 = (TextView) findViewById(R.id.headline_5);
+        date_5 = (TextView) findViewById(R.id.date_5);
+
+        // set linear layout
+        headline_layout = (LinearLayout) findViewById(R.id.headline_layout);
+        fullscreen_content = (LinearLayout) findViewById(R.id.fullscreen_content);
 
         timer = new CountDownTimer(300000, 60000) {
             @Override
@@ -223,7 +250,6 @@ public class NewsActivity extends AppCompatActivity {
         }.start();
 
         new RetrieveNewsHeadlines().execute();
-
     }
 
     protected void onResume() {
@@ -245,11 +271,7 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
+        hide();
     }
 
     private void toggle() {
