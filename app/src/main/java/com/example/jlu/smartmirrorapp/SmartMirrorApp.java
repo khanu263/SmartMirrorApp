@@ -70,6 +70,7 @@ public class SmartMirrorApp extends Application {
     private NotificationsActivity notificationActivity = null;
     private NewsActivity newsActivity = null;
     private RadioActivity radioActivity = null;
+    private GenreActivity genreActivity = null;
 
     public Activity getCurrentActivity() {
         return currentActivity;
@@ -111,12 +112,20 @@ public class SmartMirrorApp extends Application {
         this.radioActivity = receivedActivity;
     }
 
+    public GenreActivity genreActivity() {
+        return genreActivity;
+    }
+
+    public void setGenreActivity(GenreActivity receivedActivity) {
+        this.genreActivity = receivedActivity;
+    }
+
     public void listenForEvents() {
 
         Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
 
             @Override
-            public Object callApi(ParticleCloud particleCloud) throws ParticleCloudException, IOException {
+            public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
 
                 return ParticleCloudSDK.getCloud().subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
 
@@ -130,6 +139,8 @@ public class SmartMirrorApp extends Application {
                             newsActivity.receiveGesture(particleEvent.dataPayload, newsActivity.timer);
                         } else if (radioActivity != null) {
                             radioActivity.receiveGesture(particleEvent.dataPayload, radioActivity.timer);
+                        } else if (genreActivity != null) {
+                            genreActivity.receiveGesture(particleEvent.dataPayload, genreActivity.timer);
                         }
                     }
 

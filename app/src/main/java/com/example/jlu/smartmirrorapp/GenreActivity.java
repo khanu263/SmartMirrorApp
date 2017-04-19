@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import android.view.View;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class RadioActivity extends AppCompatActivity {
+public class GenreActivity extends AppCompatActivity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -107,30 +106,13 @@ public class RadioActivity extends AppCompatActivity {
         }
     }
 
-    public void gestureHandlerRight(CountDownTimer watchTimer) {
-        watchTimer.cancel();
-        Intent intent = new Intent(this, NewsActivity.class);
-        startActivity(intent);
-    }
-
-    public void gestureHandlerUp(CountDownTimer watchTimer) {
-        watchTimer.cancel();
-        Intent intent = new Intent(this, GenreActivity.class);
-        startActivity(intent);
-    }
-
     public void timeoutHandler() {
-        Intent intent = new Intent(this, LockscreenActivity.class);
+        Intent intent = new Intent(this, RadioActivity.class);
         startActivity(intent);
     }
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
-        Log.d("INFO", "radio received gesture");
-        if (gestureName.equals("RIGHT")) {
-            gestureHandlerRight(timer);
-        } else if (gestureName.equals("UP")) {
-            gestureHandlerUp(timer);
-        }
+        Log.d("INFO", "genre received gesture");
     }
 
     @Override
@@ -138,13 +120,14 @@ public class RadioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         smartMirrorApp = (SmartMirrorApp) this.getApplicationContext();
 
-        setContentView(R.layout.activity_radio);
+        setContentView(R.layout.activity_genre);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        timer = new CountDownTimer(300000, 60000) {
+
+        timer = new CountDownTimer(6000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -160,7 +143,7 @@ public class RadioActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         smartMirrorApp.setCurrentActivity(this);
-        smartMirrorApp.setRadioActivity(this);
+        smartMirrorApp.setGenreActivity(this);
     }
 
     protected void onPause() {

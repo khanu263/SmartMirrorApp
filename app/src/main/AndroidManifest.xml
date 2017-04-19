@@ -36,6 +36,11 @@
             android:name=".RadioActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_radio"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".GenreActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_genre"
             android:theme="@style/FullscreenTheme"></activity>
     </application>
 
