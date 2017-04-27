@@ -26,6 +26,7 @@
     <string name="notifications_attribution">powered by DarkSky</string>
     <string name="notifications_default">loading&#8230;</string>
     <string name="notifications_error">There was an error. Please try again later.</string>
+    <string name="notifications_permissionError">There was a permission error. Please try again later.</string>
 
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_news">NewsActivity</string>

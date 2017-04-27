@@ -1,6 +1,10 @@
 package com.example.jlu.smartmirrorapp;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,6 +18,8 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import  java.util.Calendar;
 
 /**
  * Created by khanu263 on 3/13/2017.
@@ -80,6 +86,12 @@ public class DataProcessing {
 
         String minimizedDate = minimizedFormat.format(sCalendar.getTime());
         return minimizedDate;
+    }
+
+    public int stringToInt(String str) {
+        // Converts string to an integer
+        int number = (int) Math.round( Double.parseDouble(str) );
+        return number;
     }
 
     public void updateLockscreen(TextView greeting_text, TextView period_text, TextView date_text, TextView time_text, Context ctx) {
@@ -204,6 +216,39 @@ public class DataProcessing {
 
     }
 
+    public String[] parseWeatherJSON(String JSONString, Context ctx) {
+        // Parses weather string object returned by darksky API
+
+        // Array
+        String[] weatherArray = new String[3];
+
+        // Parse JSON Object
+        try {
+
+            JSONObject returnedData = new JSONObject(JSONString);
+
+            JSONObject currently = returnedData.getJSONObject("currently");
+            JSONObject daily = returnedData.getJSONObject("hourly");
+
+            String currentWeatherIcon = currently.getString("icon");
+            String rawCurrentTemperature = currently.getString("temperature");
+            String dailySummary = daily.getString("summary");
+
+            weatherArray[0] = currentWeatherIcon;
+            weatherArray[1] = rawCurrentTemperature;
+            weatherArray[2] = dailySummary;
+
+        }
+
+        catch (JSONException e) {
+            Log.e("noot", e.getMessage());
+            return weatherArray;
+        }
+
+        return weatherArray;
+
+    }
+
     public void displayHeadlines(String[][] headlineArray, LinearLayout fullscreen_content, TextView news_attribution, TextView news_default, TextView headline_1, TextView date_1, TextView headline_2, TextView date_2, TextView headline_3, TextView date_3, TextView headline_4, TextView date_4, TextView headline_5, TextView date_5, Context ctx) {
 
         // remove loading message
@@ -247,6 +292,44 @@ public class DataProcessing {
                 date_5.setText(dateText);
             }
 
+        }
+
+    }
+
+    public String[][] calendarReader(Context ctx) {
+
+        final String[] EVENT_PROJECTION = new String[] {
+                CalendarContract.Calendars._ID,                           // 0
+                CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
+                CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
+        };
+
+        // The indices for the projection array above.
+        final int PROJECTION_ID_INDEX = 0;
+        final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+        final int PROJECTION_DISPLAY_NAME_INDEX = 2;
+        final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
+
+        // Run query
+        Cursor cur = null;
+        ContentResolver cr = ctx.getContentResolver();
+        Uri uri = CalendarContract.Calendars.CONTENT_URI;
+
+        String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
+                + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
+                + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
+
+        String[] selectionArgs = new String[] {"hera@example.com", "com.example",
+                "hera@example.com"};
+
+    // Submit the query and get a Cursor object back.
+        try {
+
+            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+
+        } catch (Exception IllegalArgumentException) {
+            Log.e("error", "Permission error");
         }
 
     }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -100,13 +101,16 @@ public class NotificationsActivity extends AppCompatActivity {
         }
     };
 
-    // Initialize API Call Variables
+    // Define API Call Variables
     static final String API_URL = "https://api.darksky.net/forecast/";
     static final String API_Key = "5a201cad8871292545e0c2dec0ac0c73";
     static final String latitude = "45.5229";
     static final String longitude = "-122.9898";
     static final String Exclusion = "?exclude=minutely,daily,alerts,flags";
     static final String Units = "?units=auto";
+
+    // Other variables
+    String[] weatherArray = new String[3];
 
     // API Call
     class RetrieveWeather extends AsyncTask<Void, Void, String> {
@@ -119,45 +123,59 @@ public class NotificationsActivity extends AppCompatActivity {
 
             // Do some validation here
             try {
+
                 // Build URL and open connection
                 URL url = new URL(API_URL + API_Key + "/" + latitude + "," + longitude + Exclusion + Units);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 try {
+
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuilder stringBuilder = new StringBuilder();
                     String line;
+
                     while ((line = bufferedReader.readLine()) != null) {
                         stringBuilder.append(line).append("\n");
                     }
+
                     bufferedReader.close();
                     return stringBuilder.toString();
                 }
 
-                finally{
+                finally {
                     urlConnection.disconnect();
                 }
+
             }
 
-            catch(Exception e) {
-                Log.e("ERROR", e.getMessage(), e);
+            catch (Exception e) {
+                Log.e("noot", e.getMessage(), e);
                 return null;
             }
         }
 
         protected void onPostExecute(String response) {
 
-            if(response == null) {
+            if (response == null) {
                 notifications_default.setText(ctx.getResources().getString(R.string.notifications_error));
             }
 
             else {
-                Log.d("Info", "Received weather");
 
-                 weatherString = response;
-                 weatherArray = processor.parseNewsJSON(, ctx);
+                weatherArray = processor.parseWeatherJSON(response, ctx);
+
+                // Define weather variables
+                String weatherIcon = weatherArray[0];
+                String rawTemperature = weatherArray[1];
+                String weatherSummary = weatherArray[2];
+
+                // Format temperature
+                int weatherTemperature = processor.stringToInt(rawTemperature);
 
                 // Log weather variables
+                Log.d("icon", weatherIcon);
+                Log.d("summary", weatherSummary);
+                Log.d("temperature", Integer.toString(weatherTemperature));
 
             }
         }
@@ -170,6 +188,7 @@ public class NotificationsActivity extends AppCompatActivity {
     // initialize TextViews
     TextView notifications_date;
     TextView notifications_time;
+    TextView notifications_default;
 
     // initialize other variables;
     DataProcessing processor = new DataProcessing();
@@ -224,6 +243,7 @@ public class NotificationsActivity extends AppCompatActivity {
         // Activity text views
         notifications_date = (TextView) findViewById(R.id.notifications_date);
         notifications_time = (TextView) findViewById(R.id.notifications_time);
+        notifications_default = (TextView) findViewById(R.id.notifications_default);
 
         // Mirror timer
         timer = new CountDownTimer(300000, 60000) {
@@ -237,6 +257,9 @@ public class NotificationsActivity extends AppCompatActivity {
                 timeoutHandler();
             }
         }.start();
+
+        // Call Retrieve Weather
+        new RetrieveWeather().execute();
     }
 
     protected void onResume() {
