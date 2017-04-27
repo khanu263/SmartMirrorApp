@@ -31,13 +31,389 @@
             android:id="@+id/genre_timer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/genre_timer_5"
+            android:text="@string/genre_instructions"
             android:fontFamily="sans-serif-light"
             android:textStyle="normal"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
             android:gravity="center"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="100dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:id="@+id/row_1_genre_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/alternative"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_1_genre_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/ambient"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_1_genre_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/blues"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:id="@+id/row_2_genre_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/classic_rock"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_2_genre_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/classical"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_2_genre_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/country"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:id="@+id/row_3_genre_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/dance"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_3_genre_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/disco"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_3_genre_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/easy_listening"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:id="@+id/row_4_genre_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/electronic"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_4_genre_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/folk"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_4_genre_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/grunge"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:id="@+id/row_5_genre_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/hip_hop"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_5_genre_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/indie"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_5_genre_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/instrumental"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:id="@+id/row_6_genre_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/jazz"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_6_genre_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/metal"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_6_genre_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/oldies"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:id="@+id/row_7_genre_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/pop"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_7_genre_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/r_and_b"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_7_genre_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/reggae"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/row_8_genre_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/rock"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_8_genre_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/soul"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/row_8_genre_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/soundtrack"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

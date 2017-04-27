@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -97,6 +99,10 @@ public class GenreActivity extends AppCompatActivity {
     // initialize other variables
     final DataProcessing processor = new DataProcessing();
     CountDownTimer timer;
+    String selectedGenre;
+    boolean inSelectionMode = false;
+    int currentRow = 0;
+    int currentColumn = 0;
 
     private void clearReferences() {
         Activity currentActivity = smartMirrorApp.getCurrentActivity();
@@ -113,6 +119,22 @@ public class GenreActivity extends AppCompatActivity {
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
         Log.d("INFO", "genre received gesture");
+        handleGesture(gestureName);
+    }
+
+    void handleGesture(String gestureName) {
+
+        if (!inSelectionMode) {
+            Log.d("info", "entered selection mode");
+            inSelectionMode = true;
+            Log.d("info", "set true");
+
+            TextView initialView = (TextView) findViewById(R.id.row_1_genre_1);
+            Log.d("info", "got initial view");
+            initialView.setTypeface(initialView.getTypeface(), Typeface.BOLD);
+            Log.d("info", "set typeface");
+        }
+
     }
 
     @Override
@@ -125,19 +147,6 @@ public class GenreActivity extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-
-
-        timer = new CountDownTimer(6000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                timeoutHandler();
-            }
-        }.start();
     }
 
     protected void onResume() {

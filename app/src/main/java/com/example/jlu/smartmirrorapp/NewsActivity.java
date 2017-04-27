@@ -197,7 +197,9 @@ public class NewsActivity extends AppCompatActivity {
 
     public void gestureHandlerLeft(CountDownTimer watchTimer) {
         watchTimer.cancel();
+        String defaultGenre = "none";
         Intent intent = new Intent(this, RadioActivity.class);
+        intent.putExtra("genre", defaultGenre);
         startActivity(intent);
     }
 

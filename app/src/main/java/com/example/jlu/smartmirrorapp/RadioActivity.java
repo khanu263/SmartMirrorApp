@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -94,6 +95,7 @@ public class RadioActivity extends AppCompatActivity {
     final Context ctx = this;
 
     // initialize TextViews
+    TextView radioTest;
 
     // initialize other variables
     final DataProcessing processor = new DataProcessing();
@@ -143,6 +145,12 @@ public class RadioActivity extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
+
+        radioTest = (TextView) findViewById(R.id.radio_test);
+
+        if (getIntent().getExtras().getString("genre").equals("none")) {
+            radioTest.setText("There is no genre currently selected");
+        }
 
         timer = new CountDownTimer(300000, 60000) {
             @Override

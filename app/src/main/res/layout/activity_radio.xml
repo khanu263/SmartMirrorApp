@@ -19,6 +19,19 @@
         android:textSize="50sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/radio_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="the currently selected genre is: "
+        android:fontFamily="sans-serif-light"
+        android:textStyle="normal"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="100dp"/>
+
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
     <FrameLayout

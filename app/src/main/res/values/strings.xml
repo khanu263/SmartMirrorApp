@@ -17,11 +17,37 @@
     <string name="news_default">loading&#8230;</string>
     <string name="news_error">There was an error. Please try again later.</string>
     <string name="genre_prompt">select a genre to listen to</string>
+    <string name="genre_instructions">gesture in any direction to begin selection</string>
     <string name="genre_timer_5">returning to radio player in 5 seconds</string>
     <string name="genre_timer_4">returning to radio player in 4 seconds</string>
     <string name="genre_timer_3">returning to radio player in 3 seconds</string>
     <string name="genre_timer_2">returning to radio player in 2 seconds</string>
     <string name="genre_timer_1">returning to radio player in 1 seconds</string>
+
+    <string name="alternative">alternative</string>
+    <string name="ambient">ambient</string>
+    <string name="blues">blues</string>
+    <string name="classic_rock">classic rock</string>
+    <string name="classical">classical</string>
+    <string name="country">country</string>
+    <string name="dance">dance</string>
+    <string name="disco">disco</string>
+    <string name="easy_listening">easy listening</string>
+    <string name="electronic">electronic</string>
+    <string name="folk">folk</string>
+    <string name="grunge">grunge</string>
+    <string name="hip_hop">hip hop</string>
+    <string name="indie">indie</string>
+    <string name="instrumental">instrumental</string>
+    <string name="jazz">jazz</string>
+    <string name="metal">metal</string>
+    <string name="oldies">oldies</string>
+    <string name="pop">pop</string>
+    <string name="r_and_b">r &#038; b</string>
+    <string name="reggae">reggae</string>
+    <string name="rock">rock</string>
+    <string name="soul">soul</string>
+    <string name="soundtrack">soundtrack</string>
 
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_news">NewsActivity</string>
