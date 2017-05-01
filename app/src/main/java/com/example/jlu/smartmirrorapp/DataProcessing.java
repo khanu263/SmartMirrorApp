@@ -296,42 +296,50 @@ public class DataProcessing {
 
     }
 
-    public String[][] calendarReader(Context ctx) {
+    public String[][] getCalendar(Context ctx) {
 
-        final String[] EVENT_PROJECTION = new String[] {
+        // Initialize return array
+        String[][] eventArray = new String[5][4];
+
+        final String[] EVENT_PROJECTION = new String[]{
                 CalendarContract.Calendars._ID,                           // 0
-                CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
-                CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
         };
 
         // The indices for the projection array above.
         final int PROJECTION_ID_INDEX = 0;
-        final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
-        final int PROJECTION_DISPLAY_NAME_INDEX = 2;
-        final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
 
         // Run query
-        Cursor cur = null;
-        ContentResolver cr = ctx.getContentResolver();
+        Cursor cursor = null;
+        ContentResolver resolver = ctx.getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
 
         String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
                 + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
                 + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
 
-        String[] selectionArgs = new String[] {"hera@example.com", "com.example",
+        String[] selectionArgs = new String[]{"hera@example.com", "com.example",
                 "hera@example.com"};
 
-    // Submit the query and get a Cursor object back.
+        // Submit the query and get a Cursor object back.
         try {
 
-            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+            cursor = resolver.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
 
         } catch (Exception IllegalArgumentException) {
             Log.e("error", "Permission error");
         }
 
-    }
+        // Use the cursor to step through the returned records
+        while (cursor.moveToNext()) {
+            long calendarID = 0;
 
+            // Get the field values
+            calendarID = cursor.getLong(PROJECTION_ID_INDEX);
+        }
+
+        // Get events
+
+
+        return eventArray;
+    }
 }
