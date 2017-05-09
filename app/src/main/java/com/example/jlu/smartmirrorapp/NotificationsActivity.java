@@ -117,6 +117,8 @@ public class NotificationsActivity extends AppCompatActivity {
     }
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
+        timer.cancel();
+        timer.start();
         Log.d("INFO", "notifications received gesture");
         if (gestureName.equals("LEFT")) {
             gestureHandlerLeft(timer);

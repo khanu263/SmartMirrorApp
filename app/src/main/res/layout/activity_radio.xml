@@ -8,29 +8,93 @@
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <TextView
+    <LinearLayout
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="RADIO\nACTIVITY"
-        android:textColor="#ffffff"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_margin="40dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/radio_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="the currently selected genre is: "
-        android:fontFamily="sans-serif-light"
-        android:textStyle="normal"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="100dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/radio_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minimized_date_default"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:id="@+id/radio_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/minimized_time_default"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/radio_genre_instruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_genre_instructions"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:lineSpacingExtra="10sp"
+            android:layout_marginTop="100dp"/>
+
+        <TextView
+            android:id="@+id/radio_main_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_main_placeholder"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="70sp"
+            android:gravity="center"
+            android:lineSpacingExtra="10sp"
+            android:layout_marginTop="325dp"/>
+
+        <TextView
+            android:id="@+id/radio_second_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_second_placeholder"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="70sp"
+            android:gravity="center"
+            android:lineSpacingExtra="10sp"/>
+
+        <TextView
+            android:id="@+id/radio_toggle_instruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_toggle_instructions"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:lineSpacingExtra="10sp"
+            android:layout_marginTop="420dp"/>
+
+    </LinearLayout>
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->

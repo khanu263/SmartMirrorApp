@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -95,24 +96,24 @@ public class GenreActivity extends AppCompatActivity {
     final Context ctx = this;
 
     // initialize TextViews
+    TextView currentView, nextView, main_view, prompt_view;
 
     // initialize other variables
     final DataProcessing processor = new DataProcessing();
     CountDownTimer timer;
-    String selectedGenre;
     boolean inSelectionMode = false;
-    int currentRow = 0;
-    int currentColumn = 0;
+    int currentRow;
+    int currentColumn;
 
     private void clearReferences() {
         Activity currentActivity = smartMirrorApp.getCurrentActivity();
         if (this.equals(currentActivity)) {
             smartMirrorApp.setCurrentActivity(null);
-            smartMirrorApp.setRadioActivity(null);
+            smartMirrorApp.setGenreActivity(null);
         }
     }
 
-    public void timeoutHandler() {
+    public void pushHandler() {
         Intent intent = new Intent(this, RadioActivity.class);
         startActivity(intent);
     }
@@ -125,15 +126,98 @@ public class GenreActivity extends AppCompatActivity {
     void handleGesture(String gestureName) {
 
         if (!inSelectionMode) {
-            Log.d("info", "entered selection mode");
-            inSelectionMode = true;
-            Log.d("info", "set true");
 
-            TextView initialView = (TextView) findViewById(R.id.row_1_genre_1);
-            Log.d("info", "got initial view");
-            initialView.setTypeface(initialView.getTypeface(), Typeface.BOLD);
-            Log.d("info", "set typeface");
+            inSelectionMode = true;
+            currentView = (TextView) findViewById(R.id.row_1_genre_1);
+            nextView = currentView;
+            smartMirrorApp.setSelectedGenre(currentView.getText().toString());
+            currentRow = 1;
+            currentColumn = 1;
+
+            ((Activity) ctx).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    currentView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                    main_view.setText(getResources().getString(R.string.genre_selected, smartMirrorApp.getSelectedGenre()));
+                    prompt_view.setText(R.string.genre_push);
+                }
+            });
+
+        } else {
+
+            switch (gestureName) {
+
+                case "PUSH":
+                    pushHandler();
+                    break;
+
+                case "LEFT":
+                    if (currentColumn == 1) {
+                        currentColumn = 3;
+                        updateSelected();
+                        break;
+                    } else {
+                        currentColumn -= 1;
+                        updateSelected();
+                        break;
+                    }
+
+                case "RIGHT":
+                    if (currentColumn == 3) {
+                        currentColumn = 1;
+                        updateSelected();
+                        break;
+                    } else {
+                        currentColumn += 1;
+                        updateSelected();
+                        break;
+                    }
+
+                case "UP":
+                    if (currentRow == 1) {
+                        currentRow = 8;
+                        updateSelected();
+                        break;
+                    } else {
+                        currentRow -= 1;
+                        updateSelected();
+                        break;
+                    }
+
+                case "DOWN":
+                    if (currentRow == 8) {
+                        currentRow = 1;
+                        updateSelected();
+                        break;
+                    } else {
+                        currentRow += 1;
+                        updateSelected();
+                        break;
+                    }
+
+            }
+
         }
+
+    }
+
+    void updateSelected() {
+
+        currentView = nextView;
+
+        String resourceID = "row_" + currentRow + "_genre_" + currentColumn;
+        int resID = getResources().getIdentifier(resourceID, "id", GenreActivity.this.getPackageName());
+        nextView = (TextView) findViewById(resID);
+        smartMirrorApp.setSelectedGenre(nextView.getText().toString());
+
+        ((Activity) ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                currentView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                nextView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                main_view.setText(getResources().getString(R.string.genre_selected, smartMirrorApp.getSelectedGenre()));
+            }
+        });
 
     }
 
@@ -147,6 +231,9 @@ public class GenreActivity extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
+
+        main_view = (TextView) findViewById(R.id.genre_prompt);
+        prompt_view = (TextView) findViewById(R.id.genre_timer);
     }
 
     protected void onResume() {

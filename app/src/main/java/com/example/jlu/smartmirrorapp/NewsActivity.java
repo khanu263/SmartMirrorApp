@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,8 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -197,9 +194,7 @@ public class NewsActivity extends AppCompatActivity {
 
     public void gestureHandlerLeft(CountDownTimer watchTimer) {
         watchTimer.cancel();
-        String defaultGenre = "none";
         Intent intent = new Intent(this, RadioActivity.class);
-        intent.putExtra("genre", defaultGenre);
         startActivity(intent);
     }
 
@@ -209,6 +204,8 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
+        timer.cancel();
+        timer.start();
         Log.d("INFO", "news received gesture");
         if (gestureName.equals("RIGHT")) {
             gestureHandlerRight(timer);

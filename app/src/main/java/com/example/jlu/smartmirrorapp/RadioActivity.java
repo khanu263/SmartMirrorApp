@@ -15,6 +15,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -95,11 +98,43 @@ public class RadioActivity extends AppCompatActivity {
     final Context ctx = this;
 
     // initialize TextViews
-    TextView radioTest;
+    TextView radio_date, radio_time;
+    TextView info_main, info_second;
 
     // initialize other variables
     final DataProcessing processor = new DataProcessing();
     CountDownTimer timer;
+
+    Map<String, String> urlMap = new HashMap<String, String>()
+    {{
+        put("alternative", "http://69.46.75.98:80/;");
+        put("ambient", "http://37.59.28.208:8722/;");
+        put("blues", "http://206.190.136.140:5022/;");
+        put("classic rock", "http://us1.internet-radio.com:8105/;");
+        put("classical", "http://38.100.128.106:8000/;");
+        put("country", "http://198.105.216.204:8194/;");
+        put("dance", "http://stream2.dancewave.online:8080/;");
+        put("disco", "http://newairhost.com:8034/;");
+        put("easy listening", "http://us2.internet-radio.com:8181/;");
+        put("electronic", "http://198.15.94.34:8006/;");
+        put("folk", "http://66.225.205.8:8000/;");
+        put("grunge", "http://janus.cdnstream.com:5308/;");
+        put("hip hop", "http://66.85.154.211:9224/;");
+        put("indie", "http://31.14.40.21:7532/;");
+        put("instrumental", "http://91.250.77.9:8060/;");
+        put("jazz", "http://64.78.234.173:8240/;");
+        put("metal", "http://192.99.62.212:9408/;");
+        put("oldies", "http://206.217.202.1:7610/;");
+        put("pop", "http://78.46.246.97:9000/;");
+        put("r & b", "http://airspectrum.cdnstream1.com:8024/;");
+        put("reggae", "http://64.71.79.181:9998/;");
+        put("rock", "http://50.7.66.10:7030/;");
+        put("soul", "http://64.95.243.43:8000/;");
+        put("soundtrack", "http://149.56.23.7:20082/;");
+    }};
+
+    String selectedGenre, streamURL;
+    boolean isLoading = false;
 
     private void clearReferences() {
         Activity currentActivity = smartMirrorApp.getCurrentActivity();
@@ -121,17 +156,157 @@ public class RadioActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void gestureHandlerDown() {
+
+        if (!smartMirrorApp.getIsPlaying() && !smartMirrorApp.getIsPaused() && !selectedGenre.equals("none")) {
+
+            isLoading = true;
+
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    info_main.setText(R.string.radio_loading);
+                    info_second.setText(R.string.radio_wait);
+                }
+            });
+
+            streamURL = urlMap.get(selectedGenre);
+
+            String response = smartMirrorApp.playRadio(streamURL);
+            if (response.equals("playing")) {
+
+                this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        info_main.setText(R.string.radio_playing);
+                        info_second.setText(selectedGenre);
+                    }
+                });
+
+
+                smartMirrorApp.setIsPlaying(true);
+
+            } else {
+
+                this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        info_main.setText(R.string.radio_main_error);
+                        info_second.setText(R.string.radio_second_error);
+                    }
+                });
+
+            }
+
+            isLoading = false;
+
+        } else if (smartMirrorApp.getIsPaused() && !selectedGenre.equals("none")) {
+
+            isLoading = true;
+
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    info_main.setText(R.string.radio_loading);
+                    info_second.setText(R.string.radio_wait);
+                }
+            });
+
+            streamURL = urlMap.get(selectedGenre);
+
+            String response = smartMirrorApp.playRadio(streamURL);
+            Log.d("info", "got response");
+            if (response.equals("playing")) {
+
+                this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        info_main.setText(R.string.radio_playing);
+                        info_second.setText(selectedGenre);
+                    }
+                });
+
+                smartMirrorApp.setIsPlaying(true);
+                smartMirrorApp.setIsPaused(false);
+
+            } else {
+
+                this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        info_main.setText(R.string.radio_main_error);
+                        info_second.setText(R.string.radio_second_error);
+                    }
+                });
+
+            }
+
+            isLoading = false;
+
+        } else if (smartMirrorApp.getIsPlaying() && !selectedGenre.equals("none")) {
+
+            isLoading = true;
+
+            String response = smartMirrorApp.pauseRadio();
+            if (response.equals("paused")) {
+
+                this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        info_main.setText(R.string.radio_selected_genre);
+                        info_second.setText(selectedGenre);
+                    }
+                });
+
+                smartMirrorApp.setIsPlaying(false);
+                smartMirrorApp.setIsPaused(true);
+            }
+
+            isLoading = false;
+
+        }
+
+    }
+
     public void timeoutHandler() {
         Intent intent = new Intent(this, LockscreenActivity.class);
         startActivity(intent);
     }
 
     public void receiveGesture(String gestureName, CountDownTimer timer) {
-        Log.d("INFO", "radio received gesture");
-        if (gestureName.equals("RIGHT")) {
-            gestureHandlerRight(timer);
-        } else if (gestureName.equals("UP")) {
-            gestureHandlerUp(timer);
+        timer.cancel();
+        timer.start();
+        if (!isLoading) {
+            Log.d("INFO", "radio received gesture");
+            if (gestureName.equals("RIGHT")) {
+                gestureHandlerRight(timer);
+            } else if (gestureName.equals("UP")) {
+
+                if (smartMirrorApp.getIsPlaying() && !selectedGenre.equals("none")) {
+
+                    String response = smartMirrorApp.pauseRadio();
+
+                    if (response.equals("paused")) {
+
+                        this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                info_main.setText(R.string.radio_selected_genre);
+                                info_second.setText(selectedGenre);
+                            }
+                        });
+
+                        smartMirrorApp.setIsPlaying(false);
+                        smartMirrorApp.setIsPaused(true);
+                    }
+
+                }
+
+                gestureHandlerUp(timer);
+
+            } else if (gestureName.equals("DOWN")) {
+                gestureHandlerDown();
+            }
         }
     }
 
@@ -146,16 +321,29 @@ public class RadioActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        radioTest = (TextView) findViewById(R.id.radio_test);
+        radio_date = (TextView) findViewById(R.id.radio_date);
+        radio_time = (TextView) findViewById(R.id.radio_time);
 
-        if (getIntent().getExtras().getString("genre").equals("none")) {
-            radioTest.setText("There is no genre currently selected");
+        info_main = (TextView) findViewById(R.id.radio_main_info);
+        info_second = (TextView) findViewById(R.id.radio_second_info);
+
+        selectedGenre = smartMirrorApp.getSelectedGenre();
+
+        if (!smartMirrorApp.getIsPlaying() && !smartMirrorApp.getIsPaused()) {
+            info_main.setText(R.string.radio_selected_genre);
+            info_second.setText(selectedGenre);
+        } else if (smartMirrorApp.getIsPlaying()) {
+            info_main.setText(R.string.radio_playing);
+            info_second.setText(selectedGenre);
+        } else if (smartMirrorApp.getIsPaused()) {
+            info_main.setText(R.string.radio_selected_genre);
+            info_second.setText(selectedGenre);
         }
 
         timer = new CountDownTimer(300000, 60000) {
             @Override
             public void onTick(long millisUntilFinished) {
-
+                processor.updateMinimizedLockscreen(radio_date, radio_time, ctx);
             }
 
             @Override
