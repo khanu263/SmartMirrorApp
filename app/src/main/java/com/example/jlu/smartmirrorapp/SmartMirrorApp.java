@@ -2,8 +2,11 @@ package com.example.jlu.smartmirrorapp;
 
 import android.app.Activity;
 import android.app.Application;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.util.Log;
 
+import java.io.Externalizable;
 import java.io.IOException;
 
 import io.particle.android.sdk.cloud.ApiFactory;
@@ -65,10 +68,81 @@ public class SmartMirrorApp extends Application {
         listenForEvents();
     }
 
+    private String selectedGenre = "none";
+    private boolean isPlaying = false;
+    private boolean isPaused = false;
+
+    public String getSelectedGenre() {
+        return this.selectedGenre;
+    }
+
+    public void setSelectedGenre(String genre) {
+        this.selectedGenre = genre;
+    }
+
+    public boolean getIsPlaying() {
+        return this.isPlaying;
+    }
+
+    public void setIsPlaying(boolean playing) {
+        this.isPlaying = playing;
+    }
+
+    public boolean getIsPaused() {
+        return this.isPaused;
+    }
+
+    public void setIsPaused(boolean paused) {
+        this.isPaused = paused;
+    }
+
+    private MediaPlayer mediaPlayer;
+
+    public String playRadio(String streamURL) {
+
+        Log.d("info", "in playRadio");
+        mediaPlayer = new MediaPlayer();
+
+        try {
+
+            Log.d("info", "setting audio stream type");
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            Log.d("info", "set audio stream type");
+            mediaPlayer.setDataSource(streamURL);
+            Log.d("info", "set data source");
+            mediaPlayer.prepareAsync();
+            Log.d("info", "prepared asynchronously");
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                    Log.d("info", "started playing");
+                }
+            });
+
+            return "playing";
+
+        } catch (Exception e) {
+            Log.e("Player error", e.getMessage());
+            return "error";
+        }
+
+    }
+
+    public String pauseRadio() {
+
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        return "paused";
+
+    }
+
     private Activity currentActivity = null;
     private LockscreenActivity lockscreenActivity = null;
     private NotificationsActivity notificationActivity = null;
     private NewsActivity newsActivity = null;
+    private RadioActivity radioActivity = null;
+    private GenreActivity genreActivity = null;
 
     public Activity getCurrentActivity() {
         return currentActivity;
@@ -102,12 +176,28 @@ public class SmartMirrorApp extends Application {
         this.newsActivity = receivedActivity;
     }
 
+    public RadioActivity getRadioActivity() {
+        return radioActivity;
+    }
+
+    public void setRadioActivity(RadioActivity receivedActivity) {
+        this.radioActivity = receivedActivity;
+    }
+
+    public GenreActivity genreActivity() {
+        return genreActivity;
+    }
+
+    public void setGenreActivity(GenreActivity receivedActivity) {
+        this.genreActivity = receivedActivity;
+    }
+
     public void listenForEvents() {
 
         Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
 
             @Override
-            public Object callApi(ParticleCloud particleCloud) throws ParticleCloudException, IOException {
+            public Object callApi(final ParticleCloud particleCloud) throws ParticleCloudException, IOException {
 
                 return ParticleCloudSDK.getCloud().subscribeToMyDevicesEvents(null, new ParticleEventHandler() {
 
@@ -119,6 +209,10 @@ public class SmartMirrorApp extends Application {
                             notificationActivity.receiveGesture(particleEvent.dataPayload, notificationActivity.timer);
                         } else if (newsActivity != null) {
                             newsActivity.receiveGesture(particleEvent.dataPayload, newsActivity.timer);
+                        } else if (radioActivity != null) {
+                            radioActivity.receiveGesture(particleEvent.dataPayload, radioActivity.timer);
+                        } else if (genreActivity != null) {
+                            genreActivity.receiveGesture(particleEvent.dataPayload, genreActivity.timer);
                         }
                     }
 

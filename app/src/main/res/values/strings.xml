@@ -20,6 +20,46 @@
     <string name="news_attribution">powered by News API</string>
     <string name="news_default">loading&#8230;</string>
     <string name="news_error">There was an error. Please try again later.</string>
+    <string name="radio_genre_instructions">swipe up to select genre</string>
+    <string name="radio_selected_genre">selected genre:</string>
+    <string name="radio_playing">currently playing:</string>
+    <string name="radio_paused">paused:</string>
+    <string name="radio_loading">loading stream&#8230;</string>
+    <string name="radio_wait">please wait</string>
+    <string name="radio_toggle_instructions">swipe down to play or pause</string>
+    <string name="radio_main_error">there was an error</string>
+    <string name="radio_second_error">try again later</string>
+    <string name="radio_main_placeholder">main</string>
+    <string name="radio_second_placeholder">second</string>
+    <string name="genre_prompt">please select one of these genres to listen to</string>
+    <string name="genre_instructions">gesture in any direction to begin selection</string>
+    <string name="genre_push">push to select this genre</string>
+    <string name="genre_selected">currently selected genre:\n %1$s</string>
+
+    <string name="alternative">alternative</string>
+    <string name="ambient">ambient</string>
+    <string name="blues">blues</string>
+    <string name="classic_rock">classic rock</string>
+    <string name="classical">classical</string>
+    <string name="country">country</string>
+    <string name="dance">dance</string>
+    <string name="disco">disco</string>
+    <string name="easy_listening">easy listening</string>
+    <string name="electronic">electronic</string>
+    <string name="folk">folk</string>
+    <string name="grunge">grunge</string>
+    <string name="hip_hop">hip hop</string>
+    <string name="indie">indie</string>
+    <string name="instrumental">instrumental</string>
+    <string name="jazz">jazz</string>
+    <string name="metal">metal</string>
+    <string name="oldies">oldies</string>
+    <string name="pop">pop</string>
+    <string name="r_and_b">r &#038; b</string>
+    <string name="reggae">reggae</string>
+    <string name="rock">rock</string>
+    <string name="soul">soul</string>
+    <string name="soundtrack">soundtrack</string>
 
     <!-- Notifications -->
     <string name="notifications_prompt">here\'s what today looks like</string>
@@ -30,4 +70,10 @@
 
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_news">NewsActivity</string>
+
+    <string name="title_activity_radio">RadioActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_genre">GenreActivity</string>
 </resources>

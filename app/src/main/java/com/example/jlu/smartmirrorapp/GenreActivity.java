@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,19 +13,14 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class NewsActivity extends AppCompatActivity {
+public class GenreActivity extends AppCompatActivity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -100,118 +95,130 @@ public class NewsActivity extends AppCompatActivity {
     protected SmartMirrorApp smartMirrorApp;
     final Context ctx = this;
 
-    // initialize TextView
-    TextView news_date;
-    TextView news_time;
-    TextView news_attribution;
-    TextView news_default;
-    TextView headline_1;
-    TextView date_1;
-    TextView headline_2;
-    TextView date_2;
-    TextView headline_3;
-    TextView date_3;
-    TextView headline_4;
-    TextView date_4;
-    TextView headline_5;
-    TextView date_5;
-
-    // initialize LinearLayout
-    LinearLayout headline_layout;
-    LinearLayout fullscreen_content;
+    // initialize TextViews
+    TextView currentView, nextView, main_view, prompt_view;
 
     // initialize other variables
     final DataProcessing processor = new DataProcessing();
     CountDownTimer timer;
-    String headlineString;
-    String[][] headlineArray;
+    boolean inSelectionMode = false;
+    int currentRow;
+    int currentColumn;
 
     private void clearReferences() {
         Activity currentActivity = smartMirrorApp.getCurrentActivity();
         if (this.equals(currentActivity)) {
             smartMirrorApp.setCurrentActivity(null);
-            smartMirrorApp.setNewsActivity(null);
+            smartMirrorApp.setGenreActivity(null);
         }
     }
 
-    class RetrieveNewsHeadlines extends AsyncTask<Void, Void, String> {
-
-        private Exception exception;
-
-        protected void onPreExecute() {}
-
-        protected String doInBackground(Void... urls) {
-
-            try {
-
-                URL url = new URL("https://newsapi.org/v1/articles?source=associated-press&apiKey=75f3a5ec633a443abd83eb7df6670618");
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-                try {
-
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line).append("\n");
-                    }
-
-                    bufferedReader.close();
-                    return stringBuilder.toString();
-
-                } finally {
-                    urlConnection.disconnect();
-                }
-
-            } catch (Exception e) {
-                Log.e("ERROR", e.getMessage(), e);
-                return null;
-            }
-
-        }
-
-        protected void onPostExecute(String response) {
-
-            if (response == null || response.substring(11, 16).equals("error")) {
-                news_default.setText(ctx.getResources().getString(R.string.news_error));
-            } else {
-                Log.d("Info", "received headlines");
-                headlineString = response;
-                headlineArray = processor.parseHeadlineJSON(headlineString, ctx);
-                processor.displayHeadlines(headlineArray, fullscreen_content, news_attribution, news_default, headline_1, date_1, headline_2, date_2, headline_3, date_3, headline_4, date_4, headline_5, date_5, ctx);
-            }
-
-        }
-
-    }
-
-    public void gestureHandlerRight(CountDownTimer watchTimer) {
-        watchTimer.cancel();
-        Intent intent = new Intent(this, NotificationsActivity.class);
-        startActivity(intent);
-    }
-
-    public void gestureHandlerLeft(CountDownTimer watchTimer) {
-        watchTimer.cancel();
+    public void pushHandler() {
         Intent intent = new Intent(this, RadioActivity.class);
         startActivity(intent);
     }
 
-    public void timeoutHandler() {
-        Intent intent = new Intent(this, LockscreenActivity.class);
-        startActivity(intent);
+    public void receiveGesture(String gestureName, CountDownTimer timer) {
+        Log.d("INFO", "genre received gesture");
+        handleGesture(gestureName);
     }
 
-    public void receiveGesture(String gestureName, CountDownTimer timer) {
-        timer.cancel();
-        timer.start();
-        Log.d("INFO", "news received gesture");
-        if (gestureName.equals("RIGHT")) {
-            gestureHandlerRight(timer);
-        } else if (gestureName.equals("LEFT")) {
-            gestureHandlerLeft(timer);
+    void handleGesture(String gestureName) {
+
+        if (!inSelectionMode) {
+
+            inSelectionMode = true;
+            currentView = (TextView) findViewById(R.id.row_1_genre_1);
+            nextView = currentView;
+            smartMirrorApp.setSelectedGenre(currentView.getText().toString());
+            currentRow = 1;
+            currentColumn = 1;
+
+            ((Activity) ctx).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    currentView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                    main_view.setText(getResources().getString(R.string.genre_selected, smartMirrorApp.getSelectedGenre()));
+                    prompt_view.setText(R.string.genre_push);
+                }
+            });
+
+        } else {
+
+            switch (gestureName) {
+
+                case "PUSH":
+                    pushHandler();
+                    break;
+
+                case "LEFT":
+                    if (currentColumn == 1) {
+                        currentColumn = 3;
+                        updateSelected();
+                        break;
+                    } else {
+                        currentColumn -= 1;
+                        updateSelected();
+                        break;
+                    }
+
+                case "RIGHT":
+                    if (currentColumn == 3) {
+                        currentColumn = 1;
+                        updateSelected();
+                        break;
+                    } else {
+                        currentColumn += 1;
+                        updateSelected();
+                        break;
+                    }
+
+                case "UP":
+                    if (currentRow == 1) {
+                        currentRow = 8;
+                        updateSelected();
+                        break;
+                    } else {
+                        currentRow -= 1;
+                        updateSelected();
+                        break;
+                    }
+
+                case "DOWN":
+                    if (currentRow == 8) {
+                        currentRow = 1;
+                        updateSelected();
+                        break;
+                    } else {
+                        currentRow += 1;
+                        updateSelected();
+                        break;
+                    }
+
+            }
+
         }
+
+    }
+
+    void updateSelected() {
+
+        currentView = nextView;
+
+        String resourceID = "row_" + currentRow + "_genre_" + currentColumn;
+        int resID = getResources().getIdentifier(resourceID, "id", GenreActivity.this.getPackageName());
+        nextView = (TextView) findViewById(resID);
+        smartMirrorApp.setSelectedGenre(nextView.getText().toString());
+
+        ((Activity) ctx).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                currentView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                nextView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+                main_view.setText(getResources().getString(R.string.genre_selected, smartMirrorApp.getSelectedGenre()));
+            }
+        });
+
     }
 
     @Override
@@ -219,51 +226,20 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         smartMirrorApp = (SmartMirrorApp) this.getApplicationContext();
 
-        setContentView(R.layout.activity_news);
+        setContentView(R.layout.activity_genre);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        // set text views for the activity
-        news_date = (TextView) findViewById(R.id.news_date);
-        news_time = (TextView) findViewById(R.id.news_time);
-        news_attribution = (TextView) findViewById(R.id.news_attribution);
-        news_default = (TextView) findViewById(R.id.news_default);
-        headline_1 = (TextView) findViewById(R.id.headline_1);
-        date_1 = (TextView) findViewById(R.id.date_1);
-        headline_2 = (TextView) findViewById(R.id.headline_2);
-        date_2 = (TextView) findViewById(R.id.date_2);
-        headline_3 = (TextView) findViewById(R.id.headline_3);
-        date_3 = (TextView) findViewById(R.id.date_3);
-        headline_4 = (TextView) findViewById(R.id.headline_4);
-        date_4 = (TextView) findViewById(R.id.date_4);
-        headline_5 = (TextView) findViewById(R.id.headline_5);
-        date_5 = (TextView) findViewById(R.id.date_5);
-
-        // set linear layout
-        headline_layout = (LinearLayout) findViewById(R.id.headline_layout);
-        fullscreen_content = (LinearLayout) findViewById(R.id.fullscreen_content);
-
-        timer = new CountDownTimer(300000, 60000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                processor.updateMinimizedLockscreen(news_date, news_time, ctx);
-            }
-
-            @Override
-            public void onFinish() {
-                timeoutHandler();
-            }
-        }.start();
-
-        new RetrieveNewsHeadlines().execute();
+        main_view = (TextView) findViewById(R.id.genre_prompt);
+        prompt_view = (TextView) findViewById(R.id.genre_timer);
     }
 
     protected void onResume() {
         super.onResume();
         smartMirrorApp.setCurrentActivity(this);
-        smartMirrorApp.setNewsActivity(this);
+        smartMirrorApp.setGenreActivity(this);
     }
 
     protected void onPause() {
