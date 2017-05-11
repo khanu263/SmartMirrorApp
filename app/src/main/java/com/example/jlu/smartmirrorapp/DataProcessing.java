@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Locale;
 
 import  java.util.Calendar;
@@ -380,30 +381,41 @@ public class DataProcessing {
     }
     */
 
-    public DataProcessing [] getCalendar(Context context) {
+    static Cursor cursor;
 
-        String projection[] = {"_id", "calendar_displayName"};
-        Uri calendars;
-        calendars = Uri.parse("content://com.android.calendar/calendars");
+    public static void readCalendar(Context context) {
 
         ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(calendars, projection, null, null, null);
 
-        if (cursor.moveToFirst()) {
+        // Fetch a list of all calendars synced with the device, their display names and whether the
 
-            user_calendars = new DataProcessing[cursor.getCount()];
+        cursor = contentResolver.query(Uri.parse("content://com.android.calendar/events"),
+                (new String[] {"calendar_id", "title", "dtstart"}), null, null, null);
 
-            String calendarName;
-            String calendarID;
-            int cont = 0;
-            int nameColumn = cursor.getColumnIndex(projection[1]);
-            int idColumn = cursor.getColumnIndex(projection[0]);
+        try {
+            System.out.println("Count="+cursor.getCount());
 
-            do {
-                calendarName = cursor.getString(nameColumn);
-                calendarID = cursor.getString(idColumn);
-                user_calendars[cont] = new DataProcessing(calendarName, calendarID);
+            if (cursor.getCount() > 0) {
+
+                while (cursor.moveToNext()) {
+
+                    String _id = cursor.getString(0);
+                    String eventTitle = cursor.getString(1);
+                    String dateTimeStart = cursor.getString(2);
+
+                    Log.d("ID", _id);
+                    Log.d("Event Title", eventTitle);
+                    Log.d("Date Time", dateTimeStart);
+                }
             }
+
+        } catch(AssertionError ex) {
+            ex.printStackTrace();
+            Log.d("ERROR", "Assertion Error");
+        } catch(Exception e) {
+            e.printStackTrace();
+            Log.d("EXCEPTION", "Exception");
         }
+
     }
 }

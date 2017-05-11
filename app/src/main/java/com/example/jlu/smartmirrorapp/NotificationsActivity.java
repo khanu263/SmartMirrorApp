@@ -180,7 +180,9 @@ public class NotificationsActivity extends AppCompatActivity {
 
 
                 // Calendar call
-                eventArray = processor.getCalendar(ctx);
+                Log.d("INFO", "Before readCalendar");
+                processor.readCalendar(ctx);
+                Log.d("INFO", "Made it past readCalendar");
 
             }
         }
