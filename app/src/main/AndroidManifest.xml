@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.jlu.smartmirrorapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,6 +11,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        tools:replace="android:icon"
         android:label="@string/app_name"
         android:name=".SmartMirrorApp"
         android:supportsRtl="true"
