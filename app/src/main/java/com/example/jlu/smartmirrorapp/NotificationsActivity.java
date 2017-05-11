@@ -111,6 +111,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
     // Other variables
     String[] weatherArray = new String[3];
+    String[][] eventArray = new String[5][4];
 
     // API Call
     class RetrieveWeather extends AsyncTask<Void, Void, String> {
@@ -176,6 +177,10 @@ public class NotificationsActivity extends AppCompatActivity {
                 Log.d("icon", weatherIcon);
                 Log.d("summary", weatherSummary);
                 Log.d("temperature", Integer.toString(weatherTemperature));
+
+
+                // Calendar call
+                eventArray = processor.getCalendar(ctx);
 
             }
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +27,9 @@ import  java.util.Calendar;
  * File for all data processing functions.
  */
 public class DataProcessing {
+
+    // Log variables
+    protected static final String TAG = "cal";
 
     public String AMorPM(int hourOfDay, Context ctx) {
         // Returns string "am" or "pm"
@@ -296,6 +300,7 @@ public class DataProcessing {
 
     }
 
+    /*
     public String[][] getCalendar(Context ctx) {
 
         // Initialize return array
@@ -303,10 +308,16 @@ public class DataProcessing {
 
         final String[] EVENT_PROJECTION = new String[]{
                 CalendarContract.Calendars._ID,                           // 0
+                CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
+                CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
         };
 
         // The indices for the projection array above.
         final int PROJECTION_ID_INDEX = 0;
+        final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+        final int PROJECTION_DISPLAY_NAME_INDEX = 2;
+        final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
 
         // Run query
         Cursor cursor = null;
@@ -317,29 +328,82 @@ public class DataProcessing {
                 + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
                 + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
 
-        String[] selectionArgs = new String[]{"hera@example.com", "com.example",
-                "hera@example.com"};
+        String[] selectionArgs = new String[]{"florence.soucy.321@gmail.com", "com.gmail",
+                "florence.soucy.321@gmail.com"};
 
         // Submit the query and get a Cursor object back.
         try {
 
             cursor = resolver.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+            Log.v(TAG, "get cursor");
 
         } catch (Exception IllegalArgumentException) {
             Log.e("error", "Permission error");
+            Log.v(TAG, "triggered permission error");
         }
 
         // Use the cursor to step through the returned records
         while (cursor.moveToNext()) {
+
+            Log.v(TAG, "Got inside while loop");
+
             long calendarID = 0;
+            Log.v(TAG, "Set calendar ID");
+            String displayName = null;
+            Log.v(TAG, "Set display name");
+            String accountName = null;
+            Log.v(TAG, "Set account name");
+            String ownerName = null;
+            Log.v(TAG, "Set owner name");
 
             // Get the field values
             calendarID = cursor.getLong(PROJECTION_ID_INDEX);
+            Log.v(TAG, "Got calendar ID");
+            displayName = cursor.getString(PROJECTION_DISPLAY_NAME_INDEX);
+            Log.v(TAG, "Got display name");
+            accountName = cursor.getString(PROJECTION_ACCOUNT_NAME_INDEX);
+            Log.v(TAG, "Got account name");
+            ownerName = cursor.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
+            Log.v(TAG, "Got owner name");
+
+            Log.v(TAG, String.format("calendar ID = %d", calendarID));
+            Log.v(TAG, displayName);
+            Log.v(TAG, accountName);
+            Log.v(TAG, ownerName);
+
+            // Get Events
         }
 
-        // Get events
-
+        Log.v(TAG, "Made it past while loop");
 
         return eventArray;
+    }
+    */
+
+    public DataProcessing [] getCalendar(Context context) {
+
+        String projection[] = {"_id", "calendar_displayName"};
+        Uri calendars;
+        calendars = Uri.parse("content://com.android.calendar/calendars");
+
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor cursor = contentResolver.query(calendars, projection, null, null, null);
+
+        if (cursor.moveToFirst()) {
+
+            user_calendars = new DataProcessing[cursor.getCount()];
+
+            String calendarName;
+            String calendarID;
+            int cont = 0;
+            int nameColumn = cursor.getColumnIndex(projection[1]);
+            int idColumn = cursor.getColumnIndex(projection[0]);
+
+            do {
+                calendarName = cursor.getString(nameColumn);
+                calendarID = cursor.getString(idColumn);
+                user_calendars[cont] = new DataProcessing(calendarName, calendarID);
+            }
+        }
     }
 }
