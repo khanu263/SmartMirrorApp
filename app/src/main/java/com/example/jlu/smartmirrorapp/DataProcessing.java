@@ -383,7 +383,9 @@ public class DataProcessing {
 
     static Cursor cursor;
 
-    public static void readCalendar(Context context) {
+    public String[][] readCalendar(Context context) {
+
+        String[][] eventArray = new String[5][2];
 
         ContentResolver contentResolver = context.getContentResolver();
 
@@ -393,19 +395,21 @@ public class DataProcessing {
                 (new String[] {"calendar_id", "title", "dtstart"}), null, null, null);
 
         try {
-            System.out.println("Count="+cursor.getCount());
 
             if (cursor.getCount() > 0) {
 
-                while (cursor.moveToNext()) {
+                for (int i = 0; i < 5; i++) {
 
-                    String _id = cursor.getString(0);
+                    cursor.moveToNext();
+
                     String eventTitle = cursor.getString(1);
-                    String dateTimeStart = cursor.getString(2);
+                    String epochTime = cursor.getString(2);
 
-                    Log.d("ID", _id);
+                    eventArray[i][0] = eventTitle;
+                    eventArray[i][1] = epochTime;
+
                     Log.d("Event Title", eventTitle);
-                    Log.d("Date Time", dateTimeStart);
+                    Log.d("Date Time", epochTime);
                 }
             }
 
@@ -416,6 +420,8 @@ public class DataProcessing {
             e.printStackTrace();
             Log.d("EXCEPTION", "Exception");
         }
+
+        return eventArray;
 
     }
 }
