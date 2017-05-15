@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 
@@ -301,86 +302,6 @@ public class DataProcessing {
 
     }
 
-    /*
-    public String[][] getCalendar(Context ctx) {
-
-        // Initialize return array
-        String[][] eventArray = new String[5][4];
-
-        final String[] EVENT_PROJECTION = new String[]{
-                CalendarContract.Calendars._ID,                           // 0
-                CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
-                CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
-        };
-
-        // The indices for the projection array above.
-        final int PROJECTION_ID_INDEX = 0;
-        final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
-        final int PROJECTION_DISPLAY_NAME_INDEX = 2;
-        final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
-
-        // Run query
-        Cursor cursor = null;
-        ContentResolver resolver = ctx.getContentResolver();
-        Uri uri = CalendarContract.Calendars.CONTENT_URI;
-
-        String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
-                + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
-                + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
-
-        String[] selectionArgs = new String[]{"florence.soucy.321@gmail.com", "com.gmail",
-                "florence.soucy.321@gmail.com"};
-
-        // Submit the query and get a Cursor object back.
-        try {
-
-            cursor = resolver.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
-            Log.v(TAG, "get cursor");
-
-        } catch (Exception IllegalArgumentException) {
-            Log.e("error", "Permission error");
-            Log.v(TAG, "triggered permission error");
-        }
-
-        // Use the cursor to step through the returned records
-        while (cursor.moveToNext()) {
-
-            Log.v(TAG, "Got inside while loop");
-
-            long calendarID = 0;
-            Log.v(TAG, "Set calendar ID");
-            String displayName = null;
-            Log.v(TAG, "Set display name");
-            String accountName = null;
-            Log.v(TAG, "Set account name");
-            String ownerName = null;
-            Log.v(TAG, "Set owner name");
-
-            // Get the field values
-            calendarID = cursor.getLong(PROJECTION_ID_INDEX);
-            Log.v(TAG, "Got calendar ID");
-            displayName = cursor.getString(PROJECTION_DISPLAY_NAME_INDEX);
-            Log.v(TAG, "Got display name");
-            accountName = cursor.getString(PROJECTION_ACCOUNT_NAME_INDEX);
-            Log.v(TAG, "Got account name");
-            ownerName = cursor.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
-            Log.v(TAG, "Got owner name");
-
-            Log.v(TAG, String.format("calendar ID = %d", calendarID));
-            Log.v(TAG, displayName);
-            Log.v(TAG, accountName);
-            Log.v(TAG, ownerName);
-
-            // Get Events
-        }
-
-        Log.v(TAG, "Made it past while loop");
-
-        return eventArray;
-    }
-    */
-
     static Cursor cursor;
 
     public String[][] readCalendar(Context context) {
@@ -405,11 +326,26 @@ public class DataProcessing {
                     String eventTitle = cursor.getString(1);
                     String epochTime = cursor.getString(2);
 
-                    eventArray[i][0] = eventTitle;
-                    eventArray[i][1] = epochTime;
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd HH.mm");
+                    String eventTime = dateFormat.format(new Date(Long.valueOf(epochTime)));
 
-                    Log.d("Event Title", eventTitle);
-                    Log.d("Date Time", epochTime);
+                    int hourUnformatted = Integer.valueOf(eventTime.substring(6, 8));
+                    int hourFormatted = 0;
+
+                    if (hourUnformatted == 0) {
+                        hourFormatted = 12;
+                    } else if (hourUnformatted > 12) {
+                        hourFormatted = hourUnformatted - 12;
+                    } else {
+                        hourFormatted = hourUnformatted;
+                    }
+
+                    String period = AMorPM(hourUnformatted, context);
+
+                    eventTime = eventTime.substring(0, 6) + Integer.toString(hourFormatted) + eventTime.substring(8) + " " + period;
+
+                    eventArray[i][0] = eventTitle;
+                    eventArray[i][1] = eventTime;
                 }
             }
 

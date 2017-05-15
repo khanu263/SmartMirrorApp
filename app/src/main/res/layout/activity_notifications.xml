@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000000"
     tools:context="com.example.jlu.smartmirrorapp.NotificationsActivity">
 
@@ -55,7 +56,7 @@
             android:textColor="#FFFFFF"
             android:textSize="50sp"
             android:gravity="center"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="100dp"
             android:layout_marginBottom="10dp"/>
 
         <TextView
@@ -68,8 +69,57 @@
             android:textColor="#FFFFFF"
             android:textSize="22sp"
             android:gravity="center"
-            android:layout_marginBottom="150dp"/>
+            android:layout_marginBottom="75dp"/>
 
+        <LinearLayout
+            android:id="@+id/weather_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.thbs.skycons.library.SunView
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:gravity="center"
+                app:isStatic="true"
+                app:strokeColor="#000000"
+                app:bgColor="#ffffff"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="130dp"/>
+
+            <LinearLayout
+                android:id="@+id/weather_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/weather_temperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notifications_temp_placeholder"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="57sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/weather_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notifications_summary_placeholder"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="37sp"
+                    android:layout_marginBottom="150dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--
         <TextView
             android:id="@+id/notifications_default"
             android:layout_width="match_parent"
@@ -80,6 +130,7 @@
             android:textColor="#FFFFFF"
             android:textSize="30sp"
             android:gravity="center"/>
+            -->
 
     </LinearLayout>
 

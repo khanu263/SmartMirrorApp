@@ -22,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -182,9 +184,6 @@ public class NotificationsActivity extends AppCompatActivity {
                 // Calendar call
                 eventArray = processor.readCalendar(ctx);
 
-                Log.d("INFO", "Received event array");
-                Log.d("INFO", eventArray[0][1]);
-
             }
         }
     }
@@ -253,7 +252,6 @@ public class NotificationsActivity extends AppCompatActivity {
         // Activity text views
         notifications_date = (TextView) findViewById(R.id.notifications_date);
         notifications_time = (TextView) findViewById(R.id.notifications_time);
-        notifications_default = (TextView) findViewById(R.id.notifications_default);
 
         // Mirror timer
         timer = new CountDownTimer(300000, 60000) {

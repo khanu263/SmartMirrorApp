@@ -144,7 +144,7 @@ public class NewsActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("https://newsapi.org/v1/articles?source=associated-press&apiKey=75f3a5ec633a443abd83eb7df6670618");
+                URL url = new URL("https://newsapi.org/v1/articles?source=reuters&apiKey=75f3a5ec633a443abd83eb7df6670618");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 try {
