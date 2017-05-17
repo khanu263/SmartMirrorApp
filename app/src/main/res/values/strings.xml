@@ -68,10 +68,10 @@
     <string name="notifications_error">There was an error. Please try again later.</string>
     <string name="notifications_permissionError">There was a permission error. Please try again later.</string>
     <string name="notifications_temp_placeholder">42&#176; F</string>
-    <string name="notifications_summary_placeholder">Rain starting this evening.</string>
+    <string name="notifications_summary_placeholder">Rain starting later, followed by sun tomorrow.</string>
     <string name="notifications_time_placeholder">HH.mm am</string>
     <string name="notifications_date_placeholder">MM/dd</string>
-    <string name="notifcations_event_placeholder">This is an event</string>
+    <string name="notifications_event_placeholder">Event name here</string>
 
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_news">NewsActivity</string>

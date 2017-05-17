@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -306,7 +307,7 @@ public class DataProcessing {
 
     public String[][] readCalendar(Context context) {
 
-        String[][] eventArray = new String[5][2];
+        String[][] eventArray = new String[4][2];
 
         ContentResolver contentResolver = context.getContentResolver();
 
@@ -327,9 +328,9 @@ public class DataProcessing {
                     String epochTime = cursor.getString(2);
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd HH.mm");
-                    String eventTime = dateFormat.format(new Date(Long.valueOf(epochTime)));
+                    String eventRawTime = dateFormat.format(new Date(Long.valueOf(epochTime)));
 
-                    int hourUnformatted = Integer.valueOf(eventTime.substring(6, 8));
+                    int hourUnformatted = Integer.valueOf(eventRawTime.substring(6, 8));
                     int hourFormatted = 0;
 
                     if (hourUnformatted == 0) {
@@ -342,10 +343,12 @@ public class DataProcessing {
 
                     String period = AMorPM(hourUnformatted, context);
 
-                    eventTime = eventTime.substring(0, 6) + Integer.toString(hourFormatted) + eventTime.substring(8) + " " + period;
+                    String eventTime = Integer.toString(hourFormatted) + eventRawTime.substring(8) + " " + period;
+                    String eventDate = eventRawTime.substring(0, 6);
 
                     eventArray[i][0] = eventTitle;
                     eventArray[i][1] = eventTime;
+                    eventArray[i][2] = eventDate;
                 }
             }
 
@@ -359,5 +362,22 @@ public class DataProcessing {
 
         return eventArray;
 
+    }
+
+    public void updateNotifications(Context context, String[][] eventArray, String[] weatherArray, LinearLayout[] layouts, TextView[][] textViews, TextView notifications_default, TextView notification_temperature, TextView notifications_summary) {
+
+        // Delete Loading
+        layouts[0].removeView(notifications_default);
+
+        // Update layouts
+        for (int i = 2; i <= 6; i++) {
+            layouts[i].setVisibility(View.VISIBLE);
+        }
+
+        // Update Weather
+        notification_temperature.setText(weatherArray[1] + "° F");
+        notifications_summary.setText(weatherArray[2]);
+
+        // Update Events
     }
 }

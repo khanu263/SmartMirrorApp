@@ -16,7 +16,6 @@
         android:layout_margin="40dp"
         android:orientation="vertical">
 
-        <!-- Date and Time -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +44,6 @@
 
         </LinearLayout>
 
-        <!-- Header -->
         <TextView
             android:id="@+id/notifications_prompt"
             android:layout_width="match_parent"
@@ -56,7 +54,7 @@
             android:textColor="#FFFFFF"
             android:textSize="50sp"
             android:gravity="center"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="60dp"
             android:layout_marginBottom="10dp"/>
 
         <TextView
@@ -69,57 +67,8 @@
             android:textColor="#FFFFFF"
             android:textSize="22sp"
             android:gravity="center"
-            android:layout_marginBottom="75dp"/>
+            android:layout_marginBottom="55dp"/>
 
-        <LinearLayout
-            android:id="@+id/weather_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.thbs.skycons.library.SunView
-                android:layout_width="175dp"
-                android:layout_height="175dp"
-                android:gravity="center"
-                app:isStatic="true"
-                app:strokeColor="#000000"
-                app:bgColor="#ffffff"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="130dp"/>
-
-            <LinearLayout
-                android:id="@+id/weather_info_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/weather_temperature"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/notifications_temp_placeholder"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="normal"
-                    android:textColor="#FFFFFF"
-                    android:textSize="57sp"
-                    android:layout_marginBottom="10dp"/>
-
-                <TextView
-                    android:id="@+id/weather_summary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/notifications_summary_placeholder"
-                    android:fontFamily="sans-serif-light"
-                    android:textStyle="normal"
-                    android:textColor="#FFFFFF"
-                    android:textSize="37sp"
-                    android:layout_marginBottom="150dp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!--
         <TextView
             android:id="@+id/notifications_default"
             android:layout_width="match_parent"
@@ -129,8 +78,345 @@
             android:textStyle="normal"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
-            android:gravity="center"/>
-            -->
+            android:gravity="center"
+            android:layout_marginTop="100dp"/>
+
+        <LinearLayout
+            android:id="@+id/weather_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="55dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/weather_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:textSize="57sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/weather_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="30sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/event_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:paddingEnd="30dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:id="@+id/event_time_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="35sp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/event_date_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp"
+                        android:gravity="end"
+                        android:layout_marginBottom="10dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/event_title_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="25dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/event_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:paddingEnd="30dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:id="@+id/event_time_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="35sp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/event_date_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp"
+                        android:gravity="end"
+                        android:layout_marginBottom="10dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/event_title_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="25dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/event_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:paddingEnd="30dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:id="@+id/event_time_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="35sp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/event_date_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp"
+                        android:gravity="end"
+                        android:layout_marginBottom="5dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/event_title_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="25dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/event_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:paddingEnd="30dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:id="@+id/event_time_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="35sp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/event_date_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp"
+                        android:gravity="end"
+                        android:layout_marginBottom="5dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/event_title_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="25dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/event_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:paddingEnd="30dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:id="@+id/event_time_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="35sp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/event_date_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp"
+                        android:gravity="end"
+                        android:layout_marginBottom="10dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/event_title_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="25dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

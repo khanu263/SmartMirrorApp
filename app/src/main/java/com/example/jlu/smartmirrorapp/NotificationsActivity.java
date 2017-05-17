@@ -16,6 +16,7 @@ import android.view.View;
 
 // Import Statements for API Call
 import android.os.AsyncTask;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -192,10 +193,20 @@ public class NotificationsActivity extends AppCompatActivity {
     protected SmartMirrorApp smartMirrorApp;
     Context ctx = this;
 
+    // initialize LinearLayouts
+    LinearLayout fullscreen_content, weather_layout, event_1, event_2, event_3, event_4, event_5;
+
     // initialize TextViews
     TextView notifications_date;
     TextView notifications_time;
     TextView notifications_default;
+
+    TextView notifications_temperature, notifications_summary;
+    TextView notifications_time1, notifications_date1, notifications_title1;
+    TextView notifications_time2, notifications_date2, notifications_title2;
+    TextView notifications_time3, notifications_date3, notifications_title3;
+    TextView notifications_time4, notifications_date4, notifications_title4;
+    TextView notifications_time5, notifications_date5, notifications_title5;
 
     // initialize other variables;
     DataProcessing processor = new DataProcessing();
@@ -249,9 +260,50 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
 
+        // Set linear layouts
+        fullscreen_content = (LinearLayout) findViewById(R.id.fullscreen_content);
+        weather_layout = (LinearLayout) findViewById(R.id.weather_layout);
+        event_1 = (LinearLayout) findViewById(R.id.event_1);
+        event_2 = (LinearLayout) findViewById(R.id.event_2);
+        event_3 = (LinearLayout) findViewById(R.id.event_3);
+        event_4 = (LinearLayout) findViewById(R.id.event_4);
+        event_5 = (LinearLayout) findViewById(R.id.event_5);
+
+        LinearLayout[] layouts = new LinearLayout[] {fullscreen_content, weather_layout, event_1, event_2, event_3, event_4, event_5};
+
         // Activity text views
         notifications_date = (TextView) findViewById(R.id.notifications_date);
         notifications_time = (TextView) findViewById(R.id.notifications_time);
+        notifications_default = (TextView) findViewById(R.id.notifications_default);
+
+        notifications_temperature = (TextView) findViewById(R.id.weather_temperature);
+        notifications_summary = (TextView) findViewById(R.id.weather_summary);
+
+        notifications_time1 = (TextView) findViewById(R.id.event_time_1);
+        notifications_time2 = (TextView) findViewById(R.id.event_time_2);
+        notifications_time3 = (TextView) findViewById(R.id.event_time_3);
+        notifications_time4 = (TextView) findViewById(R.id.event_time_4);
+        notifications_time5 = (TextView) findViewById(R.id.event_time_5);
+
+        notifications_date1 = (TextView) findViewById(R.id.event_date_1);
+        notifications_date2 = (TextView) findViewById(R.id.event_date_2);
+        notifications_date3 = (TextView) findViewById(R.id.event_date_3);
+        notifications_date4 = (TextView) findViewById(R.id.event_date_4);
+        notifications_date5 = (TextView) findViewById(R.id.event_date_5);
+
+        notifications_title1 = (TextView) findViewById(R.id.event_title_1);
+        notifications_title2 = (TextView) findViewById(R.id.event_title_2);
+        notifications_title3 = (TextView) findViewById(R.id.event_title_3);
+        notifications_title4 = (TextView) findViewById(R.id.event_title_4);
+        notifications_title5 = (TextView) findViewById(R.id.event_title_5);
+
+        TextView[][] textViews = new TextView[][] {{notifications_title1, notifications_time1, notifications_date1},
+                                                    {notifications_title2, notifications_time2, notifications_date2},
+                                                    {notifications_title3, notifications_time3, notifications_date3},
+                                                    {notifications_title4, notifications_time4, notifications_date4},
+                                                    {notifications_title5, notifications_time5, notifications_date5}};
+
+
 
         // Mirror timer
         timer = new CountDownTimer(300000, 60000) {
