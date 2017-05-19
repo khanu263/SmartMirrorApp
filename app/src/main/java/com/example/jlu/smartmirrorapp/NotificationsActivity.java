@@ -185,8 +185,6 @@ public class NotificationsActivity extends AppCompatActivity {
                 // Calendar call
                 eventArray = processor.readCalendar(ctx);
 
-                Log.d("Info", "eventArray[0][2]: " + eventArray[0][2]);
-
                 // Update Notifications
                 processor.updateNotifications(ctx, eventArray, weatherArray, layouts, textViews, notifications_default, notifications_temperature, notifications_summary);
 

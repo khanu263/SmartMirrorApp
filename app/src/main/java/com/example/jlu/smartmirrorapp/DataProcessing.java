@@ -1,6 +1,7 @@
 package com.example.jlu.smartmirrorapp;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,10 +9,23 @@ import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.thbs.skycons.library.CloudFogView;
+import com.thbs.skycons.library.CloudHvRainView;
+import com.thbs.skycons.library.CloudMoonView;
+import com.thbs.skycons.library.CloudRainView;
+import com.thbs.skycons.library.CloudSnowView;
+import com.thbs.skycons.library.CloudSunView;
+import com.thbs.skycons.library.CloudThunderView;
+import com.thbs.skycons.library.CloudView;
+import com.thbs.skycons.library.MoonView;
+import com.thbs.skycons.library.SunView;
+import com.thbs.skycons.library.WindView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -239,11 +253,13 @@ public class DataProcessing {
             JSONObject daily = returnedData.getJSONObject("hourly");
 
             String currentWeatherIcon = currently.getString("icon");
-            String rawCurrentTemperature = currently.getString("temperature");
             String dailySummary = daily.getString("summary");
 
+            String rawCurrentTemperature = currently.getString("temperature");
+            String formattedCurrentTemperature = Integer.toString((int) Math.round(Double.valueOf(rawCurrentTemperature)));
+
             weatherArray[0] = currentWeatherIcon;
-            weatherArray[1] = rawCurrentTemperature;
+            weatherArray[1] = formattedCurrentTemperature;
             weatherArray[2] = dailySummary;
 
         }
@@ -313,21 +329,25 @@ public class DataProcessing {
         ContentResolver contentResolver = context.getContentResolver();
 
         // Selection Arguments
-        String selection = CalendarContract.Events.DTSTART + " >= ?";
+        String selection = CalendarContract.Instances.BEGIN + " >= ?";
         String[] selectionArgs = new String[] {Long.toString(Calendar.getInstance().getTimeInMillis())};
 
         // Fetch a list of all calendars synced with the device, their display names and whether the
+        Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI.buildUpon();
+        ContentUris.appendId(eventsUriBuilder, Long.MIN_VALUE);
+        ContentUris.appendId(eventsUriBuilder, Long.MAX_VALUE);
 
-        cursor = contentResolver.query(Uri.parse("content://com.android.calendar/events"),
-                (new String[] {"calendar_id", "title", "dtstart"}), null, null, null);
+        Uri eventsUri = eventsUriBuilder.build();
+        cursor = contentResolver.query(eventsUri,
+                (new String[] { CalendarContract.Instances.CALENDAR_ID, CalendarContract.Instances.TITLE, CalendarContract.Instances.BEGIN }), selection, selectionArgs, CalendarContract.Instances.BEGIN + " ASC");
 
         try {
 
             if (cursor.getCount() > 0) {
 
-                for (int i = 13; i < 18; i++) {
+                for (int i = 0; i < 5; i++) {
 
-                    cursor.moveToNext();
+                    cursor.moveToPosition(i);
 
                     String eventTitle = cursor.getString(1);
                     String epochTime = cursor.getString(2);
@@ -351,9 +371,9 @@ public class DataProcessing {
                     String eventTime = Integer.toString(hourFormatted) + eventRawTime.substring(8) + " " + period;
                     String eventDate = eventRawTime.substring(0, 6);
 
-                    eventArray[i - 13][0] = eventTitle;
-                    eventArray[i - 13][1] = eventTime;
-                    eventArray[i - 13][2] = eventDate;
+                    eventArray[i][0] = eventTitle;
+                    eventArray[i][1] = eventTime;
+                    eventArray[i][2] = eventDate;
 
                 }
             }
@@ -370,6 +390,171 @@ public class DataProcessing {
 
     }
 
+    void createCloudView(Context context, LinearLayout weatherLayout) {
+
+        CloudView cloudView = new CloudView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        cloudView.setLayoutParams(params);
+        weatherLayout.addView(cloudView, 0);
+
+    }
+
+    void createSunView(Context context, LinearLayout weatherLayout) {
+
+        SunView sunView = new SunView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        sunView.setLayoutParams(params);
+        weatherLayout.addView(sunView, 0);
+
+    }
+
+    void createMoonView(Context context, LinearLayout weatherLayout) {
+
+        MoonView moonView = new MoonView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        moonView.setLayoutParams(params);
+        weatherLayout.addView(moonView, 0);
+
+    }
+
+    void createCloudSunView(Context context, LinearLayout weatherLayout) {
+
+        CloudSunView cloudSunView = new CloudSunView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        cloudSunView.setLayoutParams(params);
+        weatherLayout.addView(cloudSunView, 0);
+
+    }
+
+    void createCloudMoonView(Context context, LinearLayout weatherLayout) {
+
+        CloudMoonView cloudMoonView = new CloudMoonView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        cloudMoonView.setLayoutParams(params);
+        weatherLayout.addView(cloudMoonView, 0);
+
+    }
+
+    void createCloudHvRainView(Context context, LinearLayout weatherLayout) {
+
+        CloudHvRainView cloudHvRainView = new CloudHvRainView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        cloudHvRainView.setLayoutParams(params);
+        weatherLayout.addView(cloudHvRainView, 0);
+
+    }
+
+    void createCloudSnowView(Context context, LinearLayout weatherLayout) {
+
+        CloudSnowView cloudSnowView = new CloudSnowView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        cloudSnowView.setLayoutParams(params);
+        weatherLayout.addView(cloudSnowView, 0);
+
+    }
+
+    void createCloudRainView(Context context, LinearLayout weatherLayout) {
+
+        CloudRainView cloudRainView = new CloudRainView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        cloudRainView.setLayoutParams(params);
+        weatherLayout.addView(cloudRainView, 0);
+
+    }
+
+    void createCloudFogView(Context context, LinearLayout weatherLayout) {
+
+        CloudFogView cloudFogView = new CloudFogView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        cloudFogView.setLayoutParams(params);
+        weatherLayout.addView(cloudFogView, 0);
+
+    }
+
+    void createWindView(Context context, LinearLayout weatherLayout) {
+
+        WindView windView = new WindView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        windView.setLayoutParams(params);
+        weatherLayout.addView(windView, 0);
+
+    }
+
+    void createCloudThunderView(Context context, LinearLayout weatherLayout) {
+
+        CloudThunderView thunderView = new CloudThunderView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.width = 175;
+        params.height = 175;
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(90, 0 , 40, 0);
+
+        thunderView.setLayoutParams(params);
+        weatherLayout.addView(thunderView, 0);
+
+    }
+
     public void updateNotifications(Context context, String[][] eventArray, String[] weatherArray, LinearLayout[] layouts, TextView[][] textViews, TextView notifications_default, TextView notifications_temperature, TextView notifications_summary) {
 
         // Delete Loading
@@ -381,7 +566,7 @@ public class DataProcessing {
         }
 
         // Update Weather
-
+        createWindView(context, layouts[1]);
 
         notifications_temperature.setText(weatherArray[1] + "° F");
         notifications_summary.setText(weatherArray[2]);
@@ -390,8 +575,6 @@ public class DataProcessing {
         for (int event = 0; event <= 4; event++) {
 
             for (int i = 0; i <= 2; i++) {
-
-                Log.d("INFO", "eventArray[event][i]: " + eventArray[event][i]);
                 textViews[event][i].setText(eventArray[event][i]);
             }
 

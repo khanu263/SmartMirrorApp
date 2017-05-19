@@ -142,17 +142,18 @@
 
                     <TextView
                         android:id="@+id/event_time_1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
                         android:textSize="35sp"
+                        android:gravity="end"
                         android:layout_marginBottom="5dp"/>
 
                     <TextView
                         android:id="@+id/event_date_1"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
@@ -202,17 +203,18 @@
 
                     <TextView
                         android:id="@+id/event_time_2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
                         android:textSize="35sp"
+                        android:gravity="end"
                         android:layout_marginBottom="5dp"/>
 
                     <TextView
                         android:id="@+id/event_date_2"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
@@ -262,17 +264,18 @@
 
                     <TextView
                         android:id="@+id/event_time_3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
                         android:textSize="35sp"
+                        android:gravity="end"
                         android:layout_marginBottom="10dp"/>
 
                     <TextView
                         android:id="@+id/event_date_3"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
@@ -322,17 +325,18 @@
 
                     <TextView
                         android:id="@+id/event_time_4"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
                         android:textSize="35sp"
+                        android:gravity="end"
                         android:layout_marginBottom="10dp"/>
 
                     <TextView
                         android:id="@+id/event_date_4"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
@@ -382,17 +386,18 @@
 
                     <TextView
                         android:id="@+id/event_time_5"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
                         android:textSize="35sp"
+                        android:gravity="end"
                         android:layout_marginBottom="5dp"/>
 
                     <TextView
                         android:id="@+id/event_date_5"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:textStyle="normal"
