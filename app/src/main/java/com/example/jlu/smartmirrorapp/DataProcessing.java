@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -307,9 +308,13 @@ public class DataProcessing {
 
     public String[][] readCalendar(Context context) {
 
-        String[][] eventArray = new String[4][2];
+        String[][] eventArray = new String[5][3];
 
         ContentResolver contentResolver = context.getContentResolver();
+
+        // Selection Arguments
+        String selection = CalendarContract.Events.DTSTART + " >= ?";
+        String[] selectionArgs = new String[] {Long.toString(Calendar.getInstance().getTimeInMillis())};
 
         // Fetch a list of all calendars synced with the device, their display names and whether the
 
@@ -320,7 +325,7 @@ public class DataProcessing {
 
             if (cursor.getCount() > 0) {
 
-                for (int i = 0; i < 5; i++) {
+                for (int i = 13; i < 18; i++) {
 
                     cursor.moveToNext();
 
@@ -346,9 +351,10 @@ public class DataProcessing {
                     String eventTime = Integer.toString(hourFormatted) + eventRawTime.substring(8) + " " + period;
                     String eventDate = eventRawTime.substring(0, 6);
 
-                    eventArray[i][0] = eventTitle;
-                    eventArray[i][1] = eventTime;
-                    eventArray[i][2] = eventDate;
+                    eventArray[i - 13][0] = eventTitle;
+                    eventArray[i - 13][1] = eventTime;
+                    eventArray[i - 13][2] = eventDate;
+
                 }
             }
 
@@ -364,7 +370,7 @@ public class DataProcessing {
 
     }
 
-    public void updateNotifications(Context context, String[][] eventArray, String[] weatherArray, LinearLayout[] layouts, TextView[][] textViews, TextView notifications_default, TextView notification_temperature, TextView notifications_summary) {
+    public void updateNotifications(Context context, String[][] eventArray, String[] weatherArray, LinearLayout[] layouts, TextView[][] textViews, TextView notifications_default, TextView notifications_temperature, TextView notifications_summary) {
 
         // Delete Loading
         layouts[0].removeView(notifications_default);
@@ -375,9 +381,21 @@ public class DataProcessing {
         }
 
         // Update Weather
-        notification_temperature.setText(weatherArray[1] + "° F");
+
+
+        notifications_temperature.setText(weatherArray[1] + "° F");
         notifications_summary.setText(weatherArray[2]);
 
         // Update Events
+        for (int event = 0; event <= 4; event++) {
+
+            for (int i = 0; i <= 2; i++) {
+
+                Log.d("INFO", "eventArray[event][i]: " + eventArray[event][i]);
+                textViews[event][i].setText(eventArray[event][i]);
+            }
+
+        }
+
     }
 }

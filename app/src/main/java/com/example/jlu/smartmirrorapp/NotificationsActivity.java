@@ -185,6 +185,11 @@ public class NotificationsActivity extends AppCompatActivity {
                 // Calendar call
                 eventArray = processor.readCalendar(ctx);
 
+                Log.d("Info", "eventArray[0][2]: " + eventArray[0][2]);
+
+                // Update Notifications
+                processor.updateNotifications(ctx, eventArray, weatherArray, layouts, textViews, notifications_default, notifications_temperature, notifications_summary);
+
             }
         }
     }
@@ -207,6 +212,10 @@ public class NotificationsActivity extends AppCompatActivity {
     TextView notifications_time3, notifications_date3, notifications_title3;
     TextView notifications_time4, notifications_date4, notifications_title4;
     TextView notifications_time5, notifications_date5, notifications_title5;
+
+    // initialize arrays
+    LinearLayout[] layouts;
+    TextView[][] textViews;
 
     // initialize other variables;
     DataProcessing processor = new DataProcessing();
@@ -269,7 +278,7 @@ public class NotificationsActivity extends AppCompatActivity {
         event_4 = (LinearLayout) findViewById(R.id.event_4);
         event_5 = (LinearLayout) findViewById(R.id.event_5);
 
-        LinearLayout[] layouts = new LinearLayout[] {fullscreen_content, weather_layout, event_1, event_2, event_3, event_4, event_5};
+        layouts = new LinearLayout[] {fullscreen_content, weather_layout, event_1, event_2, event_3, event_4, event_5};
 
         // Activity text views
         notifications_date = (TextView) findViewById(R.id.notifications_date);
@@ -297,7 +306,7 @@ public class NotificationsActivity extends AppCompatActivity {
         notifications_title4 = (TextView) findViewById(R.id.event_title_4);
         notifications_title5 = (TextView) findViewById(R.id.event_title_5);
 
-        TextView[][] textViews = new TextView[][] {{notifications_title1, notifications_time1, notifications_date1},
+        textViews = new TextView[][] {{notifications_title1, notifications_time1, notifications_date1},
                                                     {notifications_title2, notifications_time2, notifications_date2},
                                                     {notifications_title3, notifications_time3, notifications_date3},
                                                     {notifications_title4, notifications_time4, notifications_date4},
@@ -320,6 +329,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         // Call Retrieve Weather
         new RetrieveWeather().execute();
+
     }
 
     protected void onResume() {
