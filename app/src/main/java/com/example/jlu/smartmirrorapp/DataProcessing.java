@@ -566,7 +566,47 @@ public class DataProcessing {
         }
 
         // Update Weather
-        createWindView(context, layouts[1]);
+        switch (weatherArray[0]) {
+            case "clear-day":
+                createSunView(context, layouts[1]);
+                break;
+
+            case "clear-night":
+                createMoonView(context, layouts[1]);
+                break;
+
+            case "rain":
+                createCloudRainView(context, layouts[1]);
+                break;
+
+            case "snow":
+                createCloudSnowView(context, layouts[1]);
+                break;
+
+            case "sleet":
+                createCloudHvRainView(context, layouts[1]);
+                break;
+
+            case "wind":
+                createWindView(context, layouts[1]);
+                break;
+
+            case "fog":
+                createCloudFogView(context, layouts[1]);
+                break;
+
+            case "cloudy":
+                createCloudView(context, layouts[1]);
+                break;
+
+            case "partly-cloudy-day":
+                createCloudSunView(context, layouts[1]);
+                break;
+
+            case "partly-cloudy-night":
+                createCloudMoonView(context, layouts[1]);
+                break;
+        }
 
         notifications_temperature.setText(weatherArray[1] + "° F");
         notifications_summary.setText(weatherArray[2]);
