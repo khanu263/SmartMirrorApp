@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 
@@ -112,8 +113,16 @@ public class SmartMirrorApp extends Application {
             Log.d("info", "setting audio stream type");
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             Log.d("info", "set audio stream type");
-            mediaPlayer.setDataSource(streamURL);
+            mediaPlayer.setDataSource(Uri.parse(streamURL).toString());
             Log.d("info", "set data source");
+            mediaPlayer.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                @Override
+                public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                    Log.d("Info", Integer.toString(what));
+                    Log.d("Info", Integer.toString(extra));
+                    return true;
+                }
+            });
             mediaPlayer.prepareAsync();
             Log.d("info", "prepared asynchronously");
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
