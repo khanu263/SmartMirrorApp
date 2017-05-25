@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.util.Log;
 
 import java.io.Externalizable;
@@ -21,6 +22,9 @@ import io.particle.android.sdk.utils.Async;
  * Created by khanu263 on 3/23/2017.
  */
 public class SmartMirrorApp extends Application {
+
+    public SmartMirrorApp() {
+    }
 
     @Override
     public void onCreate() {
