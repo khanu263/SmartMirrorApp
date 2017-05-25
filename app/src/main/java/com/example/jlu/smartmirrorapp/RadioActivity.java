@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
