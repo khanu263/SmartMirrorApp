@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,8 +22,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 /**
@@ -305,10 +302,10 @@ public class NotificationsActivity extends AppCompatActivity {
         notifications_title5 = (TextView) findViewById(R.id.event_title_5);
 
         textViews = new TextView[][] {{notifications_title1, notifications_time1, notifications_date1},
-                                                    {notifications_title2, notifications_time2, notifications_date2},
-                                                    {notifications_title3, notifications_time3, notifications_date3},
-                                                    {notifications_title4, notifications_time4, notifications_date4},
-                                                    {notifications_title5, notifications_time5, notifications_date5}};
+                {notifications_title2, notifications_time2, notifications_date2},
+                {notifications_title3, notifications_time3, notifications_date3},
+                {notifications_title4, notifications_time4, notifications_date4},
+                {notifications_title5, notifications_time5, notifications_date5}};
 
 
 

@@ -5,10 +5,8 @@ import android.app.Application;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Handler;
 import android.util.Log;
 
-import java.io.Externalizable;
 import java.io.IOException;
 
 import io.particle.android.sdk.cloud.ApiFactory;
@@ -105,26 +103,13 @@ public class SmartMirrorApp extends Application {
 
     public String playRadio(String streamURL) {
 
-        Log.d("info", "in playRadio");
         mediaPlayer = new MediaPlayer();
 
         try {
 
-            Log.d("info", "setting audio stream type");
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            Log.d("info", "set audio stream type");
             mediaPlayer.setDataSource(Uri.parse(streamURL).toString());
-            Log.d("info", "set data source");
-            mediaPlayer.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-                @Override
-                public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                    Log.d("Info", Integer.toString(what));
-                    Log.d("Info", Integer.toString(extra));
-                    return true;
-                }
-            });
             mediaPlayer.prepareAsync();
-            Log.d("info", "prepared asynchronously");
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -132,6 +117,8 @@ public class SmartMirrorApp extends Application {
                     Log.d("info", "started playing");
                 }
             });
+
+            while (!mediaPlayer.isPlaying()) {}
 
             return "playing";
 

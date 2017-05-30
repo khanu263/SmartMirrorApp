@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -113,7 +112,7 @@ public class GenreActivity extends AppCompatActivity {
         }
     }
 
-    public void pushHandler() {
+    public void pullHandler() {
         Intent intent = new Intent(this, RadioActivity.class);
         startActivity(intent);
     }
@@ -147,8 +146,8 @@ public class GenreActivity extends AppCompatActivity {
 
             switch (gestureName) {
 
-                case "PUSH":
-                    pushHandler();
+                case "PULL":
+                    pullHandler();
                     break;
 
                 case "LEFT":

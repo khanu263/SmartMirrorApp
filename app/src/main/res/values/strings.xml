@@ -33,7 +33,7 @@
     <string name="radio_second_placeholder">second</string>
     <string name="genre_prompt">please select one of these genres to listen to</string>
     <string name="genre_instructions">gesture in any direction to begin selection</string>
-    <string name="genre_push">push to select this genre</string>
+    <string name="genre_push">pull to select this genre</string>
     <string name="genre_selected">currently selected genre:\n %1$s</string>
 
     <string name="alternative">alternative</string>
